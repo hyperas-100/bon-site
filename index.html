@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.className='js';try{if(sessionStorage.getItem('bon_booted'))d.classList.add('booted');}catch(e){}try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('booted');}catch(e){}})();</script>
+<title>Long Ha (Bon) · Web3 social media &amp; community-led growth</title>
+<meta name="description" content="Long Ha (Bon) — Web3 social media and community-led growth marketer. 5+ years across DeFi, GameFi and L1/L2 projects. Reply-led distribution, KOL programs, crisis comms.">
+<meta name="author" content="Long Ha (Bon)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#06080C">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- TODO(Bon): once you have your domain, add <link rel="canonical"> and make og:image / twitter:image absolute URLs (crawlers need absolute). -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Long Ha (Bon) · Web3 social media &amp; community-led growth">
+<meta property="og:description" content="Web3 social media and community-led growth. Reply-led distribution, KOL programs, crisis comms. 5+ years across DeFi, GameFi and L1/L2.">
+<meta property="og:image" content="images/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Long Ha (Bon) · Web3 social media &amp; community-led growth">
+<meta name="twitter:description" content="Web3 social media and community-led growth. Reply-led distribution, KOL programs, crisis comms.">
+<meta name="twitter:image" content="images/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Long Ha","alternateName":"Bon","jobTitle":"Web3 Social Media & Growth Marketer","email":"mailto:halong100620@gmail.com","knowsLanguage":["vi","en"],"sameAs":["https://x.com/8xlqdtd_bon","https://t.me/bon_5m"]}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/ascii-engine.js" defer></script>
+<script src="js/galaxy.js" defer></script>
+<script src="js/space-bg.js" defer></script>
+<script src="js/trajectory.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body>
+
+<div id="root" style="position:relative;min-height:100vh;background:var(--bg);color:#C7D1E0;font-family:var(--body);font-size:16px;">
+
+  <canvas id="starfield" aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="topbar" style="position:fixed;top:0;left:0;right:0;z-index:55;display:flex;align-items:center;gap:18px;height:50px;padding:0 clamp(14px,3.4vw,30px);background:rgba(6,8,12,0.55);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);">
+    <button data-act="home" aria-label="back to top" style="display:flex;align-items:center;gap:9px;background:transparent;border:0;cursor:pointer;font:inherit;flex-shrink:0;">
+      <span style="color:var(--green);font-size:14px;text-shadow:0 0 9px var(--green);">▲</span>
+      <span style="font-weight:700;letter-spacing:.04em;font-size:14px;color:var(--ink);font-family:var(--head);">bon</span>
+    </button>
+    <button class="nav-galaxy" data-act="map" style="background:transparent;border:0;cursor:pointer;font-family:var(--head);font-size:11px;letter-spacing:.22em;color:var(--mute);padding:6px 8px;white-space:nowrap;flex-shrink:0;">▲ THE MARKET MAP</button>
+    <span style="flex:1;"></span>
+    <div role="group" aria-label="tagline language" style="display:flex;align-items:center;">
+      <button class="lang-btn" data-lang="en" style="font-family:var(--head);cursor:pointer;background:transparent;border:0;border-bottom:1px solid transparent;padding:5px 9px;font-size:11px;letter-spacing:.16em;color:var(--green);border-bottom-color:var(--green);">EN</button>
+      <button class="lang-btn" data-lang="vi" style="font-family:var(--head);cursor:pointer;background:transparent;border:0;border-bottom:1px solid transparent;padding:5px 9px;font-size:11px;letter-spacing:.16em;color:var(--mute);">VI</button>
+    </div>
+    <span id="clock" style="font-family:var(--head);font-size:10.5px;color:var(--mute);letter-spacing:.05em;flex-shrink:0;">--:--:-- UTC</span>
+  </header>
+
+  <!-- ===== CINEMATIC STAGE (fixed; scroll-driven) ===== -->
+  <div id="stage" style="position:fixed;inset:0;z-index:2;overflow:hidden;">
+
+    <!-- MARKET PLANET: hero-right -> center -> dive through -->
+    <div id="earth-wrap" aria-hidden="true" style="position:absolute;top:50%;left:50%;width:min(80vh,920px);height:min(80vh,920px);transform:translate(-50%,-50%);">
+      <div id="globe" style="position:absolute;inset:0;"></div>
+    </div>
+
+    <!-- WORMHOLE -->
+    <canvas id="wormhole" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;"></canvas>
+
+    <!-- PORTRAIT: zooms in, then dissolves into the wormhole -->
+    <div id="face-wrap" aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:scale(0.9);will-change:transform,opacity;">
+      <div id="face" style="width:min(96vh,99vw);height:min(96vh,99vw);-webkit-mask-image:radial-gradient(ellipse 56% 72% at 50% 45%,#000 42%,rgba(0,0,0,.55) 63%,transparent 82%);mask-image:radial-gradient(ellipse 56% 72% at 50% 45%,#000 42%,rgba(0,0,0,.55) 63%,transparent 82%);"></div>
+    </div>
+
+    <!-- LIQUIDITY MAP (galaxy) -->
+    <div id="galaxy-wrap" style="position:absolute;inset:0;opacity:0;pointer-events:none;transform:scale(1.25);">
+      <canvas id="galaxy" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      <div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:3;text-align:center;pointer-events:none;">
+        <div style="font-family:var(--head);font-size:11px;letter-spacing:.42em;color:var(--green);text-transform:uppercase;white-space:nowrap;">The Market Map</div>
+        <div style="font-size:12.5px;color:var(--mute);margin-top:8px;">choose a market — or run <span style="color:#9FB0C8;">cd track</span> in the terminal</div>
+      </div>
+      <div id="galaxy-hint" aria-hidden="true" style="position:absolute;bottom:94px;left:50%;transform:translateX(-50%);z-index:3;pointer-events:none;font-family:var(--head);font-size:10.5px;letter-spacing:.34em;color:var(--mute);text-transform:uppercase;transition:opacity .9s ease;display:flex;align-items:center;gap:9px;">
+        <span style="font-size:14px;color:var(--green);text-shadow:0 0 10px var(--green);animation:btwinkle 2.6s ease-in-out infinite;">⟲</span> drag to spin the map
+      </div>
+      <div style="position:absolute;inset:0;z-index:4;pointer-events:none;">
+        <button class="galaxy-node" id="node-track" data-go="track" aria-label="TRACK RECORD — where I've worked" style="position:absolute;left:28%;top:30%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
+          <span style="font-size:16px;color:var(--green);text-shadow:0 0 10px var(--green);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
+          <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">TRACK RECORD</span>
+          <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">where I've worked</span>
+        </button>
+        <button class="galaxy-node" id="node-results" data-go="results" aria-label="PNL — the numbers" style="position:absolute;left:72%;top:28%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
+          <span style="font-size:16px;color:var(--green);text-shadow:0 0 10px var(--green);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
+          <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">PNL</span>
+          <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">the numbers</span>
+        </button>
+        <button class="galaxy-node" id="node-skills" data-go="skills" aria-label="CHARACTER SHEET — what I do" style="position:absolute;left:24%;top:68%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
+          <span style="font-size:16px;color:var(--green);text-shadow:0 0 10px var(--green);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
+          <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">CHARACTER SHEET</span>
+          <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">what I do</span>
+        </button>
+        <button class="galaxy-node" id="node-contact" data-go="contact" aria-label="OPEN ORDER — say gm" style="position:absolute;left:74%;top:70%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
+          <span style="font-size:16px;color:var(--amber);text-shadow:0 0 10px var(--amber);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
+          <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">OPEN ORDER</span>
+          <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">say gm</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO TEXT: backspaces away on scroll -->
+    <div id="hero-text" style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;padding:clamp(80px,12vh,140px) clamp(20px,6vw,76px);">
+      <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(125% 120% at 12% 46%,rgba(6,8,12,0.96) 0%,rgba(6,8,12,0.5) 28%,rgba(6,8,12,0) 56%);"></div>
+      <div style="position:relative;z-index:3;max-width:820px;">
+        <div style="font-family:var(--head);font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:#8893A6;margin-bottom:30px;">LONG HA <span style="color:var(--dim);">· BON</span></div>
+        <h1 id="tagline" lang="en" data-full="I don’t post at the timeline. I live in it." style="font-family:var(--head);font-weight:700;font-size:clamp(26px,4.1vw,50px);line-height:1.14;letter-spacing:-0.01em;color:var(--ink);margin-bottom:28px;text-wrap:balance;min-height:2.3em;">I don’t post at the timeline. I live in it.</h1>
+        <p style="font-family:var(--head);font-size:clamp(15px,1.85vw,20px);line-height:1.5;color:var(--green);max-width:46ch;margin-bottom:8px;"><span style="color:var(--green-dim);">&gt;</span> web3 social media &amp; community-led growth.</p>
+        <p style="font-family:var(--head);font-style:italic;font-size:clamp(13px,1.5vw,16px);line-height:1.55;color:var(--mute);max-width:48ch;margin-bottom:30px;"><span style="color:var(--dim);font-style:normal;">&gt;</span> reply-led distribution · KOL programs · crisis comms.</p>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:44px;">
+          <span style="font-family:var(--head);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);">tagline in</span>
+          <div style="display:flex;align-items:center;border:1px solid var(--line);">
+            <button class="lang-btn" data-lang="en" style="font-family:var(--head);cursor:pointer;background:transparent;border:0;border-bottom:1px solid transparent;padding:5px 9px;font-size:11px;letter-spacing:.16em;color:var(--green);border-bottom-color:var(--green);">EN</button>
+            <button class="lang-btn" data-lang="vi" style="font-family:var(--head);cursor:pointer;background:transparent;border:0;border-bottom:1px solid transparent;padding:5px 9px;font-size:11px;letter-spacing:.16em;color:var(--mute);">VI</button>
+          </div>
+          <span style="font-size:11.5px;color:var(--dim);">native VI · English C1</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:12px;font-family:var(--head);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);">
+          <span style="color:var(--amber);animation:bfloat 2.4s ease-in-out infinite;display:inline-block;">↓</span> scroll to open the market
+        </div>
+      </div>
+      <div aria-hidden="true" style="position:absolute;bottom:84px;right:clamp(20px,6vw,76px);z-index:3;font-family:var(--head);font-size:10px;letter-spacing:.08em;color:var(--dim);text-align:right;line-height:1.6;">5+ YRS IN THE MARKET<br>BULL · BEAR · CRAB</div>
+    </div>
+
+  </div>
+
+  <!-- ===== SCROLL TRACK (drives the cinematic) ===== -->
+  <div class="scroll-track" aria-hidden="true" style="height:520vh;"></div>
+
+  <!-- ===== COMMAND CONSOLE ===== -->
+  <div id="console" style="position:fixed;left:0;right:0;bottom:0;z-index:56;pointer-events:none;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 clamp(10px,3vw,22px);">
+      <div id="cmd-log" style="pointer-events:auto;max-height:34vh;overflow-y:auto;background:rgba(6,8,12,0.93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-bottom:0;padding:14px 16px;"></div>
+    </div>
+    <div style="background:rgba(6,8,12,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);pointer-events:auto;">
+      <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:0 clamp(12px,3vw,24px);height:52px;">
+        <span style="color:var(--green-dim);font-size:13px;white-space:nowrap;flex-shrink:0;">guest@bon<span style="color:var(--dim);">:</span><span style="color:var(--green);">~</span><span style="color:var(--dim);">$</span></span>
+        <input id="cmd-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="command input" placeholder="try ‘ls’, ‘cd track’, ‘gm’, ‘sudo hire-me’" style="flex:1;min-width:0;background:transparent;border:0;outline:0;font-size:14px;color:var(--ink);caret-color:var(--green);">
+        <button id="cmd-help" data-act="help" style="flex-shrink:0;background:transparent;border:1px solid var(--line);color:#8893A6;font-family:var(--head);font-size:10.5px;letter-spacing:.14em;padding:5px 12px;cursor:pointer;">HELP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION OVERLAY / no-JS résumé document ===== -->
+  <main id="overlay">
+    <div class="overlay-bg" aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 72% 16%,rgba(255,190,90,0.06),transparent 58%),radial-gradient(circle at 16% 84%,rgba(46,230,166,0.07),transparent 54%);"></div>
+    <canvas id="overlay-bg-canvas" aria-hidden="true" style="position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:.55;"></canvas>
+    <div class="overlay-chrome" style="position:sticky;top:0;z-index:3;align-items:center;gap:14px;padding:16px clamp(20px,5vw,64px);background:linear-gradient(180deg,rgba(6,8,12,0.92),rgba(6,8,12,0));backdrop-filter:blur(8px);">
+      <button class="sec-back" data-act="back-close" style="display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid rgba(46,230,166,0.28);cursor:pointer;font-family:var(--head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#CDD8E8;padding:9px 15px;">←&nbsp; map</button>
+      <span style="flex:1;"></span>
+      <span id="sec-counter" style="font-family:var(--head);font-size:11px;letter-spacing:.3em;color:var(--mute);">01 / 04</span>
+    </div>
+
+    <div class="overlay-body" style="position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:6px clamp(20px,5vw,64px) 48px;">
+
+      <div class="resume-hero">
+        <p class="rh-eyebrow">LONG HA · BON</p>
+        <h1 class="rh-title">I don’t post at the timeline. I live in it.</h1>
+        <p class="rh-sub"><span style="color:var(--green-dim);">&gt;</span> web3 social media &amp; community-led growth.</p>
+        <p class="rh-note">native VI · English C1 · 5+ years across DeFi, GameFi and L1/L2</p>
+      </div>
+
+      <!-- ============ 01 TRACK RECORD (the flight) ============ -->
+      <section id="sec-track" class="section traj-section" data-sec="track" aria-labelledby="t-track">
+        <h2 id="t-track" class="sr-only">The Long Position — work history, 2021 to now</h2>
+        <div class="traj-stage" id="traj-map">
+          <canvas data-art="trajectory" id="traj-canvas"></canvas>
+          <div class="traj-top"><span><span class="traj-title">THE LONG POSITION</span> <span style="color:var(--mute);">// STOP <b id="traj-sector">01 / 04</b></span></span><span class="traj-loc" id="traj-loc">FREELANCE · ’21–’25</span><span>SIGNAL &#9656; <b id="traj-stat">—</b></span></div>
+          <div class="traj-progress" id="traj-progress">
+            <button data-i="0" aria-label="warp to freelance, 2021 to 2025"></button>
+            <button data-i="1" aria-label="warp to Kame, Sei"></button>
+            <button data-i="2" aria-label="warp to FlowX and Aurum"></button>
+            <button data-i="3" aria-label="warp to Bullet.xyz"></button>
+          </div>
+          <div class="traj-dossier" id="traj-dossier"></div>
+          <div class="traj-controls">
+            <div class="traj-hint" id="traj-prompt">hold to ride the trend · or press SPACE</div>
+            <div class="traj-buttons">
+              <button class="traj-btn" id="traj-back" aria-label="warp back">◀ BACK</button>
+              <button class="traj-btn traj-warp" id="traj-warp" aria-label="warp forward">HOLD TO LONG ▶</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- dossier data: read by app.js for the flight HUD, and shown as a plain list when JS is off -->
+        <div id="traj-data" class="plain-list" style="padding:40px 0 20px;">
+          <div class="plain-only" style="display:block;">
+            <div class="sec-eyebrow">where I've worked</div>
+            <h2 class="sec-title" style="margin-bottom:28px;">The Long Position</h2>
+          </div>
+          <div class="sys-info" data-i="0" style="margin-bottom:28px;">
+            <div class="dos-role">Web3 Growth &amp; Social Media Marketing · Freelance · 4/2021 – 4/2025</div>
+            <div class="dos-name">RedKite · Hydraverse · Fizen Wallet · Hyra AI</div>
+            <ul class="dos-list">
+              <li>Led growth and social strategy across 4 Web3 projects (DeFi, GameFi and L1/L2 ecosystems), scaling communities from 0 to 800k+ users.</li>
+              <li>15M+ combined organic reach (X analytics) and $100M+ in trading volume across the campaigns I led (DeFi dashboards).</li>
+              <li>Managed and trained cross-functional teams (up to 7 members) and 200+ KOL and partner relationships.</li>
+            </ul>
+          </div>
+          <div class="sys-info" data-i="1" style="margin-bottom:28px;">
+            <div class="dos-role">Marketing Manager · 7/2025 – 4/2026</div>
+            <div class="dos-name">Kame Aggregator · Sei</div>
+            <ul class="dos-list">
+              <li>Led growth and marketing: strategy, execution and ecosystem expansion within Sei.</li>
+              <li>Built and optimized the KOL/Ambassador program to ~800% efficiency vs. the original campaign on a 70% smaller budget, with 2.8M+ impressions.</li>
+              <li>Ran co-marketing and BD with major Sei protocols (DEXs, lending platforms).</li>
+              <li>Led incident communications during a protocol exploit across the official Kame X account and my own, bridging the core team, Sei Foundation, partners and users.</li>
+            </ul>
+          </div>
+          <div class="sys-info" data-i="2" style="margin-bottom:28px;">
+            <div class="dos-role">Same role · 7/2025 – 4/2026</div>
+            <div class="dos-name">FlowX Aggregator · Aurum Protocol</div>
+            <ul class="dos-list">
+              <li>Drove KOL and content growth for FlowX Aggregator.</li>
+              <li>Led full-stack growth for Aurum Protocol.</li>
+              <li>Recognized as Human of the Month twice for performance and impact.</li>
+            </ul>
+          </div>
+          <div class="sys-info" data-i="3" style="margin-bottom:28px;">
+            <div class="dos-role">Social Media · 8/2026 – present</div>
+            <div class="dos-name">Bullet.xyz · Solana perps DEX</div>
+            <ul class="dos-list">
+              <li>Lead social strategy and daily content for the main brand account (90K+ followers).</li>
+              <li>Moved the account to reply-led distribution: 1M monthly organic impressions, with likes +309%, reposts +632% and profile visits +222% (X analytics).</li>
+              <li>Ship product launch and market content on a consistent visual system, in a distinct non-corporate voice built for Solana's interactive ecosystem.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 02 PNL (results) ============ -->
+      <section id="sec-results" class="section" data-sec="results" aria-labelledby="t-results">
+        <div style="margin-bottom:34px;">
+          <div class="sec-eyebrow">the numbers</div>
+          <h2 id="t-results" class="sec-title">The PnL</h2>
+        </div>
+        <div class="tele"><span><i class="dot-live"></i> <span class="c">settled results</span></span><span>sources: X analytics · DeFi dashboards</span></div>
+        <!-- TODO(Bon): add the comparison window for the Bullet % changes (e.g. "vs. the month before I joined") in the notes below. -->
+        <div class="pnl-grid" id="pnl-grid">
+          <div class="pnl-card hud" data-to="1" data-suffix="M" data-dec="0" style="--d:0ms">
+            <div class="pnl-label">Monthly organic impressions</div>
+            <div class="pnl-num">1M</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Main account (90K+ followers) after the move to reply-led distribution.</div><span class="pnl-tag">BULLET.XYZ</span>
+          </div>
+          <div class="pnl-card hud" data-to="309" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:70ms">
+            <div class="pnl-label">Likes</div>
+            <div class="pnl-num">+309%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+          </div>
+          <div class="pnl-card hud" data-to="632" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:140ms">
+            <div class="pnl-label">Reposts</div>
+            <div class="pnl-num">+632%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+          </div>
+          <div class="pnl-card hud" data-to="222" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:210ms">
+            <div class="pnl-label">Profile visits</div>
+            <div class="pnl-num">+222%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+          </div>
+          <div class="pnl-card hud" data-to="800" data-prefix="~" data-suffix="%" data-dec="0" style="--d:280ms">
+            <div class="pnl-label">KOL program efficiency</div>
+            <div class="pnl-num amber">~800%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">vs. the original campaign, while cutting the budget by 70%.</div><span class="pnl-tag">KAME · SEI</span>
+          </div>
+          <div class="pnl-card hud" data-to="2.8" data-suffix="M+" data-dec="1" style="--d:350ms">
+            <div class="pnl-label">Total impressions</div>
+            <div class="pnl-num amber">2.8M+</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Generated by the rebuilt KOL and ambassador program.</div><span class="pnl-tag">KAME · SEI</span>
+          </div>
+          <div class="pnl-card hud" data-to="15" data-suffix="M+" data-dec="0" style="--d:420ms">
+            <div class="pnl-label">Combined organic reach</div>
+            <div class="pnl-num">15M+</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">Across 4 Web3 projects, from content, KOLs and campaigns.</div><span class="pnl-tag">FREELANCE ’21–’25</span>
+          </div>
+          <div class="pnl-card hud" data-to="100" data-prefix="$" data-suffix="M+" data-dec="0" style="--d:490ms">
+            <div class="pnl-label">Trading volume</div>
+            <div class="pnl-num">$100M+</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">During the campaigns I ran across 4 Web3 projects.</div><span class="pnl-tag">FREELANCE ’21–’25</span>
+          </div>
+        </div>
+        <p class="pnl-note"><b>How to read this.</b> Bullet.xyz figures come from X analytics and cover the main account only. Reach figures are X analytics. Trading volume is read from DeFi dashboards across the campaigns I ran. The sparklines are decorative, not data.</p>
+      </section>
+
+      <!-- ============ 03 CHARACTER SHEET (skills) ============ -->
+      <section id="sec-skills" class="section" data-sec="skills" aria-labelledby="t-skills">
+        <div style="margin-bottom:34px;">
+          <div class="sec-eyebrow">what I do</div>
+          <h2 id="t-skills" class="sec-title">Character Sheet</h2>
+        </div>
+        <div class="char-head hud">
+          <div class="char-portrait hud" data-art="portrait"><img src="images/face-tile.jpg" alt="Portrait of Long Ha" style="width:100%;height:100%;object-fit:cover;"></div>
+          <div>
+            <div class="char-tag">// player one</div>
+            <div class="char-name">LONG HA (BON)</div>
+            <div class="char-meta">
+              <div><b>CLASS</b> Web3 social &amp; growth operator</div>
+              <div><b>GUILD</b> Bullet.xyz</div>
+              <div><b>LANGS</b> Vietnamese (native) · English (C1)</div>
+              <div><b>EDU</b> NEU · Business Admin, Entrepreneurship Mgmt · 2018–22</div>
+            </div>
+          </div>
+        </div>
+        <!-- TODO(Bon): the LV values below (data-lv) are self-rated placeholders. Set them to what you actually believe. -->
+        <div class="stat-grid">
+          <div class="hud" style="padding:20px;">
+            <div class="block-title">// skills</div>
+            <!-- self-rated bars: tune the "off" count (out of 10) and LV to taste -->
+            <div class="stat-row"><span class="stat-name">CT-native voice</span><span class="stat-lv">LV 9</span><span class="stat-bar" data-lv="9"></span></div>
+            <div class="stat-row"><span class="stat-name">Reply-led distribution</span><span class="stat-lv">LV 9</span><span class="stat-bar" data-lv="9"></span></div>
+            <div class="stat-row"><span class="stat-name">KOL &amp; ambassador programs</span><span class="stat-lv">LV 9</span><span class="stat-bar" data-lv="9"></span></div>
+            <div class="stat-row"><span class="stat-name">Community-led GTM</span><span class="stat-lv">LV 8</span><span class="stat-bar" data-lv="8"></span></div>
+            <div class="stat-row"><span class="stat-name">Launch execution</span><span class="stat-lv">LV 8</span><span class="stat-bar" data-lv="8"></span></div>
+            <div class="stat-row"><span class="stat-name">Crisis communications</span><span class="stat-lv">LV 7</span><span class="stat-bar" data-lv="7"></span></div>
+            <div class="stat-row"><span class="stat-name">Co-marketing &amp; BD</span><span class="stat-lv">LV 7</span><span class="stat-bar" data-lv="7"></span></div>
+            <div class="stat-row"><span class="stat-name">Team leadership</span><span class="stat-lv">LV 7</span><span class="stat-bar" data-lv="7"></span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:clamp(18px,3vw,28px);">
+            <div class="hud" style="padding:20px;">
+              <div class="block-title">// gear</div>
+              <div class="gear"><span>X / Crypto Twitter</span><span>KOL programs</span><span>ambassador programs</span><span>co-marketing</span><span>BD</span><span>community ops</span><span>launch content</span><span>incident comms</span><span>content systems</span></div>
+            </div>
+            <div class="hud" style="padding:20px;">
+              <div class="block-title">// achievements</div>
+              <ul class="dos-list">
+                <li>Human of the Month, twice</li>
+                <li>Rebuilt a KOL program at ~800% efficiency on a 70% smaller budget</li>
+                <li>Led comms through a live protocol exploit</li>
+                <li>Grew communities from 0 to 800k+ users across 4 projects</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 04 OPEN ORDER (contact) ============ -->
+      <section id="sec-contact" class="section" data-sec="contact" aria-labelledby="t-contact">
+        <div style="margin-bottom:26px;">
+          <div class="sec-eyebrow">say gm</div>
+          <h2 id="t-contact" class="sec-title">Open Order</h2>
+        </div>
+        <p style="font-size:clamp(17px,1.9vw,21px);line-height:1.62;color:#CDD8E8;max-width:60ch;">I'm open to part-time and retainer work in web3 social: brand accounts, a CT-native voice, KOL programs and community-led growth.</p>
+        <div class="roles"><span>brand accounts</span><span>reply-led growth</span><span>KOL programs</span><span>launch content</span><span>community ops</span></div>
+        <div class="contact-grid">
+          <a class="contact-link" href="https://x.com/8xlqdtd_bon" target="_blank" rel="noopener"><span class="k">X / TWITTER</span><span class="v">@8xlqdtd_bon</span><span class="go">DM me →</span></a>
+          <a class="contact-link" href="https://t.me/bon_5m" target="_blank" rel="noopener"><span class="k">TELEGRAM</span><span class="v">@bon_5m</span><span class="go">say gm →</span></a>
+          <a class="contact-link" href="mailto:halong100620@gmail.com"><span class="k">EMAIL</span><span class="v">halong100620@gmail.com</span><span class="go">write →</span></a>
+        </div>
+        <div class="term hud" style="max-width:640px;">
+          <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title">guest@bon:~</span></div>
+          <div class="term-body">
+            <div><span class="p">$</span> cat availability.txt</div>
+            <div>part-time · retainer · web3 social</div>
+            <div><span class="p">$</span> gm<span class="cur"> ▌</span></div>
+          </div>
+        </div>
+        <p style="margin-top:34px;font-size:11.5px;color:var(--dim);line-height:1.7;">Built on the open-source engines from <a href="https://github.com/cudam321/cudam321.com" target="_blank" rel="noopener" style="color:var(--mute);border-bottom:1px solid var(--dim);">cudam321.com</a> (MIT). Copy, art and portrait are my own.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== BOOT ===== -->
+  <div id="boot" data-act="skip-boot" style="position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:0 clamp(20px,8vw,120px);cursor:pointer;">
+    <pre id="boot-pre" style="font-family:var(--head);font-size:clamp(11px,2.2vw,15px);line-height:1.8;color:var(--green);white-space:pre-wrap;"></pre>
+    <div style="margin-top:28px;font-family:var(--head);font-size:10.5px;letter-spacing:.3em;color:var(--dim);">PRESS ANY KEY TO SKIP</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -51,7 +51,7 @@ html.no-js .traj-stage { display: none; }
 
 .resume-hero { display: block; padding: 96px 0 54px; }
 .rh-eyebrow { font-family: var(--head); font-size: 12px; letter-spacing: .34em; text-transform: uppercase; color: var(--mute); margin-bottom: 22px; }
-.rh-title { font-family: var(--head); font-weight: 700; font-size: clamp(26px, 4.6vw, 54px); line-height: 1.14; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 22px; max-width: 20ch; }
+.rh-title { font-family: var(--head); font-weight: 700; font-size: clamp(24px, 3.6vw, 42px); line-height: 1.18; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 22px; max-width: 30ch; }
 .rh-sub { font-family: var(--head); font-size: clamp(15px, 1.9vw, 21px); line-height: 1.5; color: var(--green); max-width: 46ch; margin-bottom: 18px; }
 .rh-note { font-size: 11.5px; color: var(--dim); font-family: var(--head); letter-spacing: .06em; }
 

@@ -23,17 +23,6 @@
     skills: 'skills', sheet: 'skills', character: 'skills', stats: 'skills',
     contact: 'contact', hire: 'contact', dm: 'contact', order: 'contact', hello: 'contact', hi: 'contact'
   };
-  var TAGLINES = {
-    en: 'I don’t post at the timeline. I live in it.',
-    vi: 'Tôi không đăng bài lên timeline. Tôi sống trong nó.'
-  };
-  var LANG_CONF = {
-    en: 'language set to English.',
-    vi: 'đã chuyển sang Tiếng Việt.'
-  };
-  var BASE_BTN = "font-family:'Space Mono',monospace;cursor:pointer;background:transparent;border:0;border-bottom:1px solid transparent;padding:5px 9px;font-size:11px;letter-spacing:.16em;transition:color .2s,border-color .2s;";
-  var BTN_ON = BASE_BTN + 'color:#2EE6A6;border-bottom-color:#2EE6A6;';
-  var BTN_OFF = BASE_BTN + 'color:#6B7586;';
 
   // the flight: four stops climbing a rising chart (level = chart height 0..1)
   var SYS = [
@@ -364,16 +353,6 @@
   }
   function skipBoot() { endBoot(0); }
 
-  // ---------- language ----------
-  function setLang(l) {
-    if (!TAGLINES[l]) return;
-    state.lang = l;
-    var btns = document.querySelectorAll('.lang-btn');
-    for (var i = 0; i < btns.length; i++) btns[i].style.cssText = (btns[i].getAttribute('data-lang') === l) ? BTN_ON : BTN_OFF;
-    if (E.tagEl) { E.tagEl.setAttribute('data-full', TAGLINES[l]); E.tagEl.setAttribute('lang', l); E.tagEl.textContent = TAGLINES[l]; }
-    applyScroll();
-    toast(LANG_CONF[l] || '');
-  }
 
   // ---------- toast ----------
   function toast(m) {
@@ -445,7 +424,7 @@
     var cmd = (raw || '').trim(); if (!cmd) return;
     history_.push(cmd); printLine('guest@bon:~$ ' + cmd, 'in');
     var parts = cmd.split(/\s+/); var c = parts[0].toLowerCase(); var arg = parts.slice(1).join(' ');
-    if (c === 'help' || c === '?') { printLine("COMMANDS\n  ls · map           list / open the market map\n  cd <pair>          open a pair: track, results, skills, contact\n  back · home        leave a pair / jump to the top\n  whoami · man · lang en|vi\n  top · gm · wagmi · rekt · long · short\n  sudo hire-me       open the contact pair\n  clear              clear this log\n  (a few commands are undocumented.)", 'sys'); return; }
+    if (c === 'help' || c === '?') { printLine("COMMANDS\n  ls · map           list / open the market map\n  cd <pair>          open a pair: track, results, skills, contact\n  back · home        leave a pair / jump to the top\n  whoami · man\n  top · gm · wagmi · rekt · long · short\n  sudo hire-me       open the contact pair\n  clear              clear this log\n  (a few commands are undocumented.)", 'sys'); return; }
     if (c === 'ls' || c === 'dir') { printLine("PAIRS — type 'cd <name>'\n  track · results · skills · contact", 'sys'); return; }
     if (c === 'map') { goMap(); printLine('→ the market map', 'out'); return; }
     if (c === 'back') { closeSection(); printLine('→ back to the map', 'out'); return; }
@@ -461,7 +440,6 @@
     if (c === 'short') { printLine('shorting your doubts: +100% PnL. (not financial advice.)', 'out'); return; }
     if (ROOMS[c]) { if (ROOMS[c] === '__home') { goHero(); } else openSection(ROOMS[c]); printLine('→ ' + c, 'out'); return; }
     if (c === 'whoami') { printLine('Long Ha (Bon): web3 social media and community-led growth. native VI, English C1.', 'out'); return; }
-    if (c === 'lang') { var l = (arg || '').toLowerCase(); if (l === 'vi' || l === 'en') setLang(l); else printLine('usage: lang en|vi', 'warn'); return; }
     if (c === 'top' || c === 'htop') { printLine('PID  PROCESS            LOAD\n  1  reply_guy           99%\n  2  kol_dms             71%\n 12  tabs_open           ●●●●●●●●●●●●\n  0  sleep               ERR: not found', 'out'); return; }
     if (c === 'gm') { printLine("gm. it's always morning somewhere on CT.", 'sys'); return; }
     if (c === 'wagmi') { printLine('we are. (past performance not guaranteed.)', 'out'); return; }
@@ -532,8 +510,6 @@
     document.addEventListener('click', function (e) {
       var go = e.target.closest('[data-go]');
       if (go) { openSection(go.getAttribute('data-go')); return; }
-      var lang = e.target.closest('.lang-btn');
-      if (lang) { setLang(lang.getAttribute('data-lang')); return; }
       var act = e.target.closest('[data-act]');
       if (act) {
         var a = act.getAttribute('data-act');

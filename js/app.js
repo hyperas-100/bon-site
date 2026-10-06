@@ -1,5 +1,5 @@
 /* app.js — Bon's site.
-   Scroll cinematic (market planet -> portrait -> wormhole -> liquidity map), section overlays,
+   Scroll cinematic (market planet -> monogram -> wormhole -> liquidity map), section overlays,
    command console, results count-up, flight game wiring.
 
    The scroll-cinematic / galaxy-node projection / wormhole structure is adapted from
@@ -83,7 +83,7 @@
     }, 50);
   }
 
-  // ---------- ascii art (market planet + portrait) ----------
+  // ---------- ascii art (market planet + monogram) ----------
   function mountHero() {
     if (!E.globe) return;
     var sm = window.innerWidth < 760;
@@ -92,7 +92,7 @@
       fontSize: sm ? 9 : 11, maxCols: sm ? 96 : 180, secondsPerRotation: 30,
       gamma: 0.8, transparent: true
     });
-    if (E.face) window.AsciiArt.image(E.face, { src: 'images/face.jpg', color: true, fontSize: sm ? 6 : 8, maxCols: sm ? 130 : 240, gamma: 0.8, transparent: true });
+    if (E.face) window.AsciiArt.image(E.face, { src: 'images/mark.jpg', color: true, fontSize: sm ? 6 : 8, maxCols: sm ? 130 : 240, gamma: 0.8, transparent: true });
   }
   function mountSectionArt(sec) {
     if (!sec) return;
@@ -105,7 +105,7 @@
       var kind = el.getAttribute('data-art'), h = null;
       if (kind === 'portrait') {
         el.textContent = ''; el.style.padding = '0'; el.style.display = 'block';
-        h = window.AsciiArt.image(el, { src: 'images/face-tile.jpg', color: true, fontSize: 4, maxCols: 130, gamma: 0.8, transparent: true });
+        h = window.AsciiArt.image(el, { src: 'images/mark.jpg', color: true, fontSize: 4, maxCols: 130, gamma: 0.8, transparent: true });
       } else if (kind === 'trajectory' && window.Trajectory) {
         h = flight = window.Trajectory.mount(el, { systems: SYS, onDock: onDock });
         wireFlight();

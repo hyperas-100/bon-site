@@ -52,10 +52,10 @@ After you have a domain:
 | --- | --- |
 | `index.html` | All content (experience, PnL cards, skills, contact) as semantic HTML |
 | `css/style.css` | Theme (mint = long, amber = accent, red = short) and layout |
-| `js/app.js` | Scroll cinematic, overlays, flight HUD data (`SYS`), console commands, EN/VI toggle |
+| `js/app.js` | Scroll cinematic, overlays, flight HUD data (`SYS`), console commands |
 | `js/ascii-engine.js` | Image/globe → ASCII renderer |
 | `js/galaxy.js` · `js/trajectory.js` · `js/space-bg.js` | Map, flight game, section backgrounds |
 | `images/` | `market.jpg` (planet texture), `mark.jpg` (monogram), `og.png` (share card) |
 
 Console easter eggs (click the prompt at the bottom): `help`, `ls`, `cd track|results|skills|contact`, `map`, `gm`, `wagmi`,
-`rekt`, `ngmi`, `long`, `short`, `sudo hire-me`, `lang vi`.
+`rekt`, `ngmi`, `long`, `short`, `sudo hire-me`.

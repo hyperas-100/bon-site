@@ -1,6 +1,6 @@
 # Long Ha (Bon) — interactive résumé site
 
-Interactive ASCII "trading-terminal universe" résumé: a candlestick planet → portrait → wormhole → a map of four
+Interactive ASCII "trading-terminal universe" résumé: a candlestick planet → monogram → wormhole → a map of four
 destinations (Track record, PnL, Character sheet, Open order). Plain HTML + CSS + vanilla JS — no build step, no
 dependencies. Works without JavaScript (falls back to a normal, linear résumé page).
 
@@ -11,7 +11,7 @@ The rendering engines (`js/ascii-engine.js`, `js/galaxy.js`, `js/trajectory.js`,
 MIT License. His copyright and permission notice is kept in `LICENSE` and must stay with the code.
 
 The MIT license covers **code only**. Cudam's written copy, photos, ASCII art, and branding are not licensed for reuse and
-none of them are in this repo. Everything visible on this site (text, portrait, candlestick texture, icons) is original.
+none of them are in this repo. Everything visible on this site (text, monogram, candlestick texture, icons) is original.
 
 ## Run locally
 
@@ -55,7 +55,7 @@ After you have a domain:
 | `js/app.js` | Scroll cinematic, overlays, flight HUD data (`SYS`), console commands, EN/VI toggle |
 | `js/ascii-engine.js` | Image/globe → ASCII renderer |
 | `js/galaxy.js` · `js/trajectory.js` · `js/space-bg.js` | Map, flight game, section backgrounds |
-| `images/` | `market.jpg` (planet texture), `face.jpg` + `face-tile.jpg` (portrait), `og.png` (share card) |
+| `images/` | `market.jpg` (planet texture), `mark.jpg` (monogram), `og.png` (share card) |
 
 Console easter eggs (click the prompt at the bottom): `help`, `ls`, `cd track|results|skills|contact`, `map`, `gm`, `wagmi`,
 `rekt`, `ngmi`, `long`, `short`, `sudo hire-me`, `lang vi`.

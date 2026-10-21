@@ -90,6 +90,11 @@
           <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">PNL</span>
           <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">the numbers</span>
         </button>
+        <button class="galaxy-node" id="node-pow" data-go="pow" aria-label="PROOF OF WORK — receipts" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
+          <span style="font-size:16px;color:var(--green);text-shadow:0 0 10px var(--green);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
+          <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">PROOF OF WORK</span>
+          <span style="font-size:10px;color:#8893A6;text-shadow:0 1px 6px var(--bg),0 0 12px var(--bg);white-space:nowrap;">receipts</span>
+        </button>
         <button class="galaxy-node" id="node-skills" data-go="skills" aria-label="CHARACTER SHEET — what I do" style="position:absolute;left:24%;top:68%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;cursor:pointer;padding:12px 14px;border-radius:4px;">
           <span style="font-size:16px;color:var(--green);text-shadow:0 0 10px var(--green);line-height:1;animation:btwinkle 3.2s ease-in-out infinite;">▲</span>
           <span style="font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--ink);text-shadow:0 1px 8px var(--bg),0 0 16px var(--bg);white-space:nowrap;">CHARACTER SHEET</span>
@@ -144,7 +149,7 @@
     <div class="overlay-chrome" style="position:sticky;top:0;z-index:3;align-items:center;gap:14px;padding:16px clamp(20px,5vw,64px);background:linear-gradient(180deg,rgba(6,8,12,0.92),rgba(6,8,12,0));backdrop-filter:blur(8px);">
       <button class="sec-back" data-act="back-close" style="display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid rgba(46,230,166,0.28);cursor:pointer;font-family:var(--head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#CDD8E8;padding:9px 15px;">←&nbsp; map</button>
       <span style="flex:1;"></span>
-      <span id="sec-counter" style="font-family:var(--head);font-size:11px;letter-spacing:.3em;color:var(--mute);">01 / 04</span>
+      <span id="sec-counter" style="font-family:var(--head);font-size:11px;letter-spacing:.3em;color:var(--mute);">01 / 05</span>
     </div>
 
     <div class="overlay-body" style="position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:6px clamp(20px,5vw,64px) 48px;">
@@ -213,12 +218,12 @@
             </ul>
           </div>
           <div class="sys-info" data-i="3" style="margin-bottom:28px;">
-            <div class="dos-role">Social Media · 8/2026 – present</div>
+            <div class="dos-role">Social Media · 20 Aug 2026 – present</div>
             <div class="dos-name">Bullet.xyz · Solana perps DEX</div>
             <ul class="dos-list">
               <li>Lead social strategy and daily content for the main brand account (90K+ followers).</li>
-              <li>Moved the account to reply-led distribution: 1M monthly organic impressions, with likes +309%, reposts +632% and profile visits +222% (X analytics).</li>
-              <li>Perps volume over the same stretch: $117M in August, $187M in September, $305M in the first 21 days of October (DefiLlama).</li>
+              <li>Moved the account to reply-led distribution. First 2 months: 2.1M organic impressions (+781%), likes +1,015%, reposts +940% and replies +173% vs. the 2 months before (X analytics).</li>
+              <li>Perps volume over the same stretch: $477M in my first 2 months, 3.3× the 2 months before (DefiLlama).</li>
               <li>Ship product launch and market content on a consistent visual system, in a distinct non-corporate voice built for Solana's interactive ecosystem.</li>
             </ul>
           </div>
@@ -232,69 +237,179 @@
           <h2 id="t-results" class="sec-title">The PnL</h2>
         </div>
         <div class="tele"><span><i class="dot-live"></i> <span class="c">settled results</span></span><span>sources: X analytics · DefiLlama</span></div>
-        <!-- TODO(Bon): add the comparison window for the Bullet % changes (e.g. "vs. the month before I joined") in the notes below. -->
         <div class="vol-panel hud" id="vol-panel">
           <div class="vol-head">
             <div>
               <div class="pnl-label">Bullet perps · daily volume</div>
-              <div class="vol-big">$608M</div>
-              <div class="pnl-sub">traded on Bullet since I joined (Aug 1 – Oct 21, 2026).</div>
+              <div class="vol-big">$545M</div>
+              <div class="pnl-sub">traded on Bullet since I joined (Aug 20 – Oct 21, 2026).</div>
             </div>
-            <div class="vol-months" aria-label="monthly volume: August $117M, September $187M, October so far $305M">
-              <div><span class="m">AUG</span><b>$117M</b></div>
+            <div class="vol-months" aria-label="two months before I joined: $145M; my first month: $150M; my second month: $327M">
+              <div><span class="m">2 MO. BEFORE</span><b class="pre">$145M</b></div>
+              <div class="arr" aria-hidden="true">·</div>
+              <div><span class="m">MONTH 1</span><b>$150M</b></div>
               <div class="arr" aria-hidden="true">→</div>
-              <div><span class="m">SEP</span><b>$187M</b></div>
-              <div class="arr" aria-hidden="true">→</div>
-              <div><span class="m">OCT*</span><b class="hot">$305M</b></div>
+              <div><span class="m">MONTH 2</span><b class="hot">$327M</b></div>
             </div>
           </div>
           <div class="vol-chart-wrap">
-            <canvas id="vol-chart" role="img" aria-label="Bar chart of Bullet perps daily volume from April 29 to October 21, 2026. Daily volume rises from under $1M to $35.2M. A marker at August 1 shows when Bon joined."></canvas>
+            <canvas id="vol-chart" role="img" aria-label="Bar chart of Bullet perps daily volume from April 29 to October 21, 2026. Daily volume rises from under $1M to $35.2M. A marker at August 20 shows when Bon joined."></canvas>
             <div class="vol-tip" id="vol-tip" hidden></div>
           </div>
-          <div class="vol-foot"><span>*Oct = first 21 days, already more than Aug + Sep combined.</span><a href="https://defillama.com/protocol/bullet-perps?groupBy=daily" target="_blank" rel="noopener">source: DefiLlama ↗</a></div>
+          <div class="vol-foot"><span>Month 1 = Aug 20 – Sep 19 · Month 2 = Sep 20 – Oct 19 · first 2 months: $477M, 3.3× the 2 months before.</span><a href="https://defillama.com/protocol/bullet-perps?groupBy=daily" target="_blank" rel="noopener">source: DefiLlama ↗</a></div>
         </div>
         <div class="pnl-grid" id="pnl-grid">
-          <div class="pnl-card hud" data-to="1" data-suffix="M" data-dec="0" style="--d:0ms">
-            <div class="pnl-label">Monthly organic impressions</div>
-            <div class="pnl-num">1M</div><div class="pnl-spark" aria-hidden="true"></div>
-            <div class="pnl-sub">Main account (90K+ followers) after the move to reply-led distribution.</div><span class="pnl-tag">BULLET.XYZ</span>
+          <div class="pnl-card hud" data-to="2.1" data-suffix="M" data-dec="1" style="--d:0ms">
+            <div class="pnl-label">Organic impressions</div>
+            <div class="pnl-num">2.1M</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">+781% vs. the 2 months before I joined. Main account (90K+ followers).</div><span class="pnl-tag">BULLET.XYZ</span>
           </div>
-          <div class="pnl-card hud" data-to="309" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:70ms">
+          <div class="pnl-card hud" data-to="1015" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:70ms">
             <div class="pnl-label">Likes</div>
-            <div class="pnl-num">+309%</div><div class="pnl-spark" aria-hidden="true"></div>
-            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+            <div class="pnl-num">+1,015%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">159.1K likes in my first 2 months.</div><span class="pnl-tag">BULLET.XYZ</span>
           </div>
-          <div class="pnl-card hud" data-to="632" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:140ms">
+          <div class="pnl-card hud" data-to="940" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:140ms">
             <div class="pnl-label">Reposts</div>
-            <div class="pnl-num">+632%</div><div class="pnl-spark" aria-hidden="true"></div>
-            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+            <div class="pnl-num">+940%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">2.4K reposts over the same window.</div><span class="pnl-tag">BULLET.XYZ</span>
           </div>
-          <div class="pnl-card hud" data-to="222" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:210ms">
+          <div class="pnl-card hud" data-to="173" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:210ms">
+            <div class="pnl-label">Replies received</div>
+            <div class="pnl-num">+173%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">952 replies over the same window.</div><span class="pnl-tag">BULLET.XYZ</span>
+          </div>
+          <div class="pnl-card hud" data-to="108" data-prefix="+" data-suffix="%" data-dec="0" data-up="1" style="--d:280ms">
             <div class="pnl-label">Profile visits</div>
-            <div class="pnl-num">+222%</div><div class="pnl-spark" aria-hidden="true"></div>
-            <div class="pnl-sub">Monthly organic engagement, main account.</div><span class="pnl-tag">BULLET.XYZ</span>
+            <div class="pnl-num">+108%</div><div class="pnl-spark" aria-hidden="true"></div>
+            <div class="pnl-sub">3.8K profile visits over the same window.</div><span class="pnl-tag">BULLET.XYZ</span>
           </div>
-          <div class="pnl-card hud" data-to="800" data-prefix="~" data-suffix="%" data-dec="0" style="--d:280ms">
+          <div class="pnl-card hud" data-to="800" data-prefix="~" data-suffix="%" data-dec="0" style="--d:350ms">
             <div class="pnl-label">KOL program efficiency</div>
             <div class="pnl-num amber">~800%</div><div class="pnl-spark" aria-hidden="true"></div>
             <div class="pnl-sub">vs. the original campaign, while cutting the budget by 70%.</div><span class="pnl-tag">KAME · SEI</span>
           </div>
-          <div class="pnl-card hud" data-to="2.8" data-suffix="M+" data-dec="1" style="--d:350ms">
+          <div class="pnl-card hud" data-to="2.8" data-suffix="M+" data-dec="1" style="--d:420ms">
             <div class="pnl-label">Total impressions</div>
             <div class="pnl-num amber">2.8M+</div><div class="pnl-spark" aria-hidden="true"></div>
             <div class="pnl-sub">Generated by the rebuilt KOL and ambassador program.</div><span class="pnl-tag">KAME · SEI</span>
           </div>
-          <div class="pnl-card hud" data-to="15" data-suffix="M+" data-dec="0" style="--d:420ms">
+          <div class="pnl-card hud" data-to="15" data-suffix="M+" data-dec="0" style="--d:490ms">
             <div class="pnl-label">Combined organic reach</div>
             <div class="pnl-num">15M+</div><div class="pnl-spark" aria-hidden="true"></div>
             <div class="pnl-sub">Across 4 Web3 projects, from content, KOLs and campaigns.</div><span class="pnl-tag">FREELANCE ’21–’25</span>
           </div>
         </div>
-        <p class="pnl-note"><b>How to read this.</b> Bullet.xyz social figures come from X analytics and cover the main account only. Reach figures are X analytics. Volume is Bullet perps’ platform-wide daily notional volume from DefiLlama (snapshot as of Oct 21, 2026), shown for the stretch I’ve run the account. The sparklines are decorative, not data.</p>
+        <p class="pnl-note"><b>How to read this.</b> Bullet.xyz social figures are X analytics for the main account only, Aug 20 – Oct 21, 2026, compared with the 2 months before I joined (the previous period of the same length). Reach figures are X analytics. Volume is Bullet perps’ platform-wide daily notional volume from DefiLlama (snapshot as of Oct 21, 2026), shown for the stretch I’ve run the account. The sparklines are decorative, not data.</p>
       </section>
 
-      <!-- ============ 03 CHARACTER SHEET (skills) ============ -->
+      <!-- ============ 03 PROOF OF WORK (best replies) ============ -->
+      <section id="sec-pow" class="section" data-sec="pow" aria-labelledby="t-pow">
+        <div style="margin-bottom:34px;">
+          <div class="sec-eyebrow">receipts</div>
+          <h2 id="t-pow" class="sec-title">Proof of Work</h2>
+          <p class="pow-intro">Replies I wrote on the main Bullet account, under some of the biggest posts on CT. One line each, no bootlicking.</p>
+        </div>
+        <div class="tele"><span><i class="dot-live"></i> <span class="c">9 replies</span></span><span>@Bulletxyz · Sep – Oct 2026</span><span>tap “load original” for the live post</span></div>
+        <div class="pow-grid">
+            <article class="pow-card hud" style="--d:0ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">TO</span><span class="pow-who"><b>TOGI</b> <span>@ShaneStoffer</span></span></div>
+              <p class="pow-parent">The audacity to hit the DMs asking for 100 bands is crazy 😭😭😭 my own mother don’t even ask for money like that <span class="pow-media">[image]</span></p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">you miss 100% shots you dont take ahh 😭</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-19">Oct 19, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2112232833846845480">load original</button><a href="https://x.com/Bulletxyz/status/2112232833846845480" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:60ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">SE</span><span class="pow-who"><b>se</b> <span>@seyong</span></span></div>
+              <p class="pow-parent">interested in long term games with long term people</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">long term in this market is anything over 4h btw</p>
+              </div>
+              <div class="pow-proof">↳ se liked it and replied with a laugh.</div>
+              <div class="pow-foot"><time datetime="2026-10-19">Oct 19, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2112326518479466607">load original</button><a href="https://x.com/Bulletxyz/status/2112326518479466607" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:120ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">WG</span><span class="pow-who"><b>Watcher.Guru</b> <span>@WatcherGuru</span></span></div>
+              <p class="pow-parent">LIVE: 🇺🇸 Crypto Clarity Act Senate Cloture Vote</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">this is like watching a chart w 1x leverage 😩</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-09-15">Sep 15, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2099925422125543623">load original</button><a href="https://x.com/Bulletxyz/status/2099925422125543623" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:180ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">KA</span><span class="pow-who"><b>Kalshi</b> <span>@Kalshi</span></span></div>
+              <p class="pow-parent">JUST IN: Nearly 17% of Americans aged 16 to 29 neither working nor studying</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">rich kids, real neets and fulltime traders</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-09-16">Sep 16, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2100349105860129249">load original</button><a href="https://x.com/Bulletxyz/status/2100349105860129249" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:240ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">AN</span><span class="pow-who"><b>Ansem</b> <span>@blknoiz06</span></span></div>
+              <p class="pow-parent">they really shook me out of longs at the stone low</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">happens to the best of us. and the worst of us. mostly the worst.</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-21">Oct 21, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2113016495001473420">load original</button><a href="https://x.com/Bulletxyz/status/2113016495001473420" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:300ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">AC</span><span class="pow-who"><b>Ash Crypto</b> <span>@AshCrypto</span></span></div>
+              <p class="pow-parent">THIS SHOULD BE A LESSON FOR EVERYONE.
+Someone turned $56,000 into $12.25 Million in 4 months by trading BTC and alts.
+At this point, the best thing to do was leave the casino, but he did the opposite. … <span class="pow-media">[image]</span></p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">bro speedran the entire crypto experience in 4 months 😭</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-15">Oct 15, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2110660571607797796">load original</button><a href="https://x.com/Bulletxyz/status/2110660571607797796" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:360ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">BT</span><span class="pow-who"><b>Bull Theory</b> <span>@BullTheoryio</span></span></div>
+              <p class="pow-parent">BREAKING: Reports that an Iran-US deal is close are false, according to a person familiar with the talks.
+Oil is back above $97 following the news. <span class="pow-media">[image]</span></p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">bro who tf is &#x27;a person familiar with the talks&#x27; he just liquidated both sides of oil 😭</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-20">Oct 20, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2112567146949886347">load original</button><a href="https://x.com/Bulletxyz/status/2112567146949886347" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:420ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">UW</span><span class="pow-who"><b>unusual_whales</b> <span>@unusual_whales</span></span></div>
+              <p class="pow-parent">BREAKING: Anthropic has said that rogue AI agents may &quot;self-replicate&quot; to hijack smart devices such as ovens and TVs</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">send help my fridge opened a btc short</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-13">Oct 13, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2110068840633897370">load original</button><a href="https://x.com/Bulletxyz/status/2110068840633897370" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+            <article class="pow-card hud" style="--d:480ms">
+              <div class="pow-ctx"><span class="pow-av" aria-hidden="true">WG</span><span class="pow-who"><b>Watcher.Guru</b> <span>@WatcherGuru</span></span></div>
+              <p class="pow-parent">JUST IN: 🇿🇦 South Africa&#x27;s First National Bank launches crypto trading for nearly 9 million customers. …</p>
+              <div class="pow-reply">
+                <div class="pow-ctx"><span class="pow-av me" aria-hidden="true">B</span><span class="pow-who"><b>Bullet</b> <span>@Bulletxyz · reply</span></span></div>
+                <p class="pow-text">wake up babe another bank just became an exchange 😭</p>
+              </div>
+              <div class="pow-foot"><time datetime="2026-10-06">Oct 6, 2026</time><span class="pow-acts"><button type="button" class="pow-load" data-tweet="2107596592090095625">load original</button><a href="https://x.com/Bulletxyz/status/2107596592090095625" target="_blank" rel="noopener">view on X ↗</a></span></div>
+              <div class="pow-embed" hidden></div>
+            </article>
+        </div>
+      </section>
+
+      <!-- ============ 04 CHARACTER SHEET (skills) ============ -->
       <section id="sec-skills" class="section" data-sec="skills" aria-labelledby="t-skills">
         <div style="margin-bottom:34px;">
           <div class="sec-eyebrow">what I do</div>
@@ -345,7 +460,7 @@
         </div>
       </section>
 
-      <!-- ============ 04 OPEN ORDER (contact) ============ -->
+      <!-- ============ 05 OPEN ORDER (contact) ============ -->
       <section id="sec-contact" class="section" data-sec="contact" aria-labelledby="t-contact">
         <div style="margin-bottom:26px;">
           <div class="sec-eyebrow">say gm</div>

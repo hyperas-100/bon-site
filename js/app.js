@@ -171,6 +171,103 @@
     }
     countRaf = requestAnimationFrame(tick);
   }
+  // ---------- results: Bullet perps daily volume (DefiLlama snapshot in volume-data.js) ----------
+  var MON = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  var volRaf = 0, volHover = -1, volBound = false, volGeo = null;
+  function volDay(i) { return new Date(Date.parse(window.BULLET_VOL.start + 'T00:00:00Z') + i * 864e5); }
+  function fmtVol(k) { return k >= 1000 ? '$' + (k / 1000).toFixed(1).replace(/\.0$/, '') + 'M' : '$' + Math.round(k) + 'K'; }
+  function renderVolume(animate) {
+    var V = window.BULLET_VOL, c = $('vol-chart');
+    if (!V || !c) return;
+    var box = c.getBoundingClientRect(); if (box.width < 20 || box.height < 20) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W = box.width, H = box.height;
+    c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
+    var ctx = c.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var d = V.d, n = d.length, max = 0, i;
+    for (i = 0; i < n; i++) if (d[i] > max) max = d[i];
+    var sm = W < 560, padL = sm ? 36 : 46, padR = sm ? 4 : 8, padT = 30, padB = 22;
+    var pw = W - padL - padR, ph = H - padT - padB, bw = pw / n, base = padT + ph;
+    var top = Math.ceil(max / 10000) * 10000;
+    var joinI = Math.round((Date.parse(V.joined) - Date.parse(V.start)) / 864e5);
+    var joinX = padL + joinI * bw;
+    volGeo = { padL: padL, bw: bw, n: n, base: base, ph: ph, top: top, W: W };
+    var font = "10px 'Space Mono', ui-monospace, Menlo, monospace";
+    if (volRaf) { cancelAnimationFrame(volRaf); volRaf = 0; }
+    var DUR = (animate && !reduce()) ? 1400 : 0, t0 = performance.now();
+    function frame(now) {
+      var p = DUR ? Math.min(1, (now - t0) / DUR) : 1;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'source-over';
+      // tint the stretch since joining
+      ctx.fillStyle = 'rgba(46,230,166,0.035)'; ctx.fillRect(joinX, padT, padL + pw - joinX, ph);
+      // bars
+      for (i = 0; i < n; i++) {
+        var v = d[i]; if (v == null || v <= 0) continue;
+        var local = DUR ? Math.max(0, Math.min(1, p * 1.7 - (i / n) * 0.7)) : 1;
+        var e = 1 - Math.pow(1 - local, 3);
+        var h = Math.max(1.5, (v / top) * ph * e);
+        var x0 = padL + i * bw + (bw > 3 ? 0.5 : 0), w = Math.max(1, bw - (bw > 3 ? 1 : 0.3));
+        ctx.fillStyle = (i === volHover) ? '#FFFFFF' : (i >= n - 3 ? '#FFBE5A' : (i >= joinI ? '#2EE6A6' : '#2a5b52'));
+        ctx.fillRect(x0, base - h, w, h);
+      }
+      // cut LED rows out of the bars
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = '#000';
+      var step = sm ? 4 : 5;
+      for (var y = base - step; y > padT - step; y -= step) ctx.fillRect(padL, y, pw, 1);
+      ctx.globalCompositeOperation = 'source-over';
+      // grid + y labels
+      ctx.font = font; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      for (var g = 0; g <= top; g += 10000) {
+        var gy = Math.round(base - (g / top) * ph) + 0.5;
+        ctx.fillStyle = g ? 'rgba(46,230,166,0.09)' : 'rgba(46,230,166,0.22)'; ctx.fillRect(padL, gy, pw, 1);
+        ctx.fillStyle = '#566173'; ctx.fillText(g ? '$' + (g / 1000) + 'M' : '$0', padL - 7, gy);
+      }
+      // month ticks
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      for (i = 0; i < n; i++) {
+        var dt = volDay(i);
+        if (dt.getUTCDate() !== 1) continue;
+        var mx = Math.round(padL + i * bw) + 0.5;
+        ctx.fillStyle = 'rgba(46,230,166,0.25)'; ctx.fillRect(mx, base, 1, 5);
+        ctx.fillStyle = '#566173'; ctx.fillText(MON[dt.getUTCMonth()], mx + 3, H - 5);
+      }
+      // "joined" marker
+      ctx.strokeStyle = 'rgba(255,190,90,0.75)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(Math.round(joinX) + 0.5, padT - 14); ctx.lineTo(Math.round(joinX) + 0.5, base); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#FFBE5A'; ctx.textBaseline = 'middle'; ctx.fillText('▸ bon joins', joinX + 6, padT - 14);
+      // latest print
+      if (p >= 1) {
+        var lv = d[n - 1], ly = base - (lv / top) * ph;
+        ctx.textAlign = 'right'; ctx.fillStyle = '#FFBE5A'; ctx.font = "bold 11px 'Space Mono', ui-monospace, Menlo, monospace";
+        ctx.fillText(fmtVol(lv) + ' / day', padL + pw - (sm ? 6 : 10), Math.max(padT - 14, ly - 12));
+      }
+      if (p < 1) volRaf = requestAnimationFrame(frame); else volRaf = 0;
+    }
+    if (DUR) volRaf = requestAnimationFrame(frame); else frame(t0);
+    bindVolume();
+  }
+  function bindVolume() {
+    if (volBound) return;
+    var c = $('vol-chart'), tip = $('vol-tip'); if (!c || !tip) return;
+    volBound = true;
+    function at(ev) {
+      if (!volGeo || volRaf) return;
+      var r = c.getBoundingClientRect(), x = ev.clientX - r.left;
+      var i = Math.floor((x - volGeo.padL) / volGeo.bw);
+      if (i < 0 || i >= volGeo.n) { off(); return; }
+      var v = window.BULLET_VOL.d[i], dt = volDay(i);
+      if (i !== volHover) { volHover = i; renderVolume(false); }
+      tip.innerHTML = MON[dt.getUTCMonth()].charAt(0) + MON[dt.getUTCMonth()].slice(1).toLowerCase() + ' ' + dt.getUTCDate() + ' · <b>' + (v == null ? 'no data' : fmtVol(v)) + '</b>';
+      tip.hidden = false;
+      var bx = volGeo.padL + (i + 0.5) * volGeo.bw, half = tip.offsetWidth / 2 + 2;
+      tip.style.left = Math.max(half, Math.min(volGeo.W - half, bx)) + 'px';
+    }
+    function off() { tip.hidden = true; if (volHover !== -1) { volHover = -1; if (!volRaf) renderVolume(false); } }
+    c.addEventListener('pointermove', at);
+    c.addEventListener('pointerdown', at);
+    c.addEventListener('pointerleave', off);
+  }
   function renderStatBars() {
     var bars = document.querySelectorAll('.stat-bar[data-lv]');
     for (var i = 0; i < bars.length; i++) {
@@ -321,7 +418,7 @@
     }
     if (reduce()) draw(0); else sfRaf = requestAnimationFrame(draw);
   }
-  function onResize() { if (sfMake) sfMake(); if (wormBuild) wormBuild(); applyScroll(); }
+  function onResize() { if (sfMake) sfMake(); if (wormBuild) wormBuild(); applyScroll(); if (state.section === 'results') renderVolume(false); }
 
   // ---------- clock ----------
   function startClock() {
@@ -385,7 +482,7 @@
     var bgc = $('overlay-bg-canvas'); if (bgc) bgc.style.display = hideBg ? 'none' : '';
     var obg = E.overlay && E.overlay.querySelector('.overlay-bg'); if (obg) obg.style.display = hideBg ? 'none' : '';
     if (flight) flight.setActive(id === 'track');
-    if (id === 'results') runCounts();
+    if (id === 'results') { runCounts(); volHover = -1; renderVolume(true); }
     return true;
   }
   function closeSection() {
@@ -399,6 +496,7 @@
     if (sbg) sbg.setActive(false);
     if (flight) flight.setActive(false);
     if (countRaf) { cancelAnimationFrame(countRaf); countRaf = 0; }
+    if (volRaf) { cancelAnimationFrame(volRaf); volRaf = 0; }
     applyScroll();
   }
   function goMap() { closeSection(); var max = Math.max(0, (document.documentElement.scrollHeight - window.innerHeight)); window.scrollTo({ top: max, behavior: reduce() ? 'auto' : 'smooth' }); }

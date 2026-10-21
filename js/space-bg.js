@@ -35,6 +35,7 @@
   var CONF = {
     track:   { kind: 'warp',  col: [46, 230, 166], spd: 1 },
     results: { kind: 'grid',  col: [255, 190, 90], spd: 0.6 },
+    pow:     { kind: 'orbit', col: [255, 190, 90], spd: 0.5 },
     skills:  { kind: 'orbit', col: [46, 230, 166], spd: 0.7 },
     contact: { kind: 'radar', col: [46, 230, 166], spd: 0.7 }
   };

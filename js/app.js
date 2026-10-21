@@ -12,14 +12,16 @@
   var META = {
     track:   { t: 'The Long Position', n: '01', sub: 'where I\'ve worked' },
     results: { t: 'The PnL',           n: '02', sub: 'the numbers' },
-    skills:  { t: 'Character Sheet',   n: '03', sub: 'what I do' },
-    contact: { t: 'Open Order',        n: '04', sub: 'say gm' }
+    pow:     { t: 'Proof of Work',     n: '03', sub: 'receipts' },
+    skills:  { t: 'Character Sheet',   n: '04', sub: 'what I do' },
+    contact: { t: 'Open Order',        n: '05', sub: 'say gm' }
   };
   var TOTAL = Object.keys(META).length;
   var ROOMS = {
     home: '__home', hero: '__home', top: '__home',
     track: 'track', work: 'track', career: 'track', jobs: 'track', experience: 'track', long: 'track',
     results: 'results', pnl: 'results', numbers: 'results', metrics: 'results',
+    pow: 'pow', proof: 'pow', receipts: 'pow', replies: 'pow', posts: 'pow',
     skills: 'skills', sheet: 'skills', character: 'skills', stats: 'skills',
     contact: 'contact', hire: 'contact', dm: 'contact', order: 'contact', hello: 'contact', hi: 'contact'
   };
@@ -29,7 +31,7 @@
     { label: 'Freelance ’21–’25', color: [255, 190, 90], size: 11, level: 0.10, seed: 3, mono: '×4',  stat: '0 → 800k+ users' },
     { label: 'Kame · Sei',        color: [46, 230, 166], size: 10, level: 0.42, seed: 5, mono: 'KM',  stat: '~800% KOL efficiency' },
     { label: 'FlowX · Aurum',     color: [110, 200, 240], size: 8, level: 0.66, seed: 7, mono: 'F+A', stat: 'KOL + full-stack growth' },
-    { label: 'Bullet.xyz ’26',    color: [255, 120, 150], size: 13, level: 0.95, seed: 9, mono: 'BX', live: true, stat: '1M monthly impressions' }
+    { label: 'Bullet.xyz ’26',    color: [255, 120, 150], size: 13, level: 0.95, seed: 9, mono: 'BX', live: true, stat: '2.1M impressions · +781%' }
   ];
 
   // ---------- module state ----------
@@ -150,7 +152,8 @@
   }
   function fmtCard(card, v) {
     var dec = +card.getAttribute('data-dec') || 0;
-    return (card.getAttribute('data-prefix') || '') + (dec ? v.toFixed(dec) : String(Math.round(v))) + (card.getAttribute('data-suffix') || '');
+    var n = dec ? v.toFixed(dec) : String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (card.getAttribute('data-prefix') || '') + n + (card.getAttribute('data-suffix') || '');
   }
   function runCounts() {
     var cards = document.querySelectorAll('#pnl-grid .pnl-card');
@@ -282,9 +285,10 @@
   // each pair lives at a real point on the disk [radius, angle, height] and orbits WITH the map when you drag it
   var GAL_ANCHORS = {
     track:   [0.42, 0.35, 0],
-    results: [0.72, 1.90, 0],
-    skills:  [0.55, 3.50, 0],
-    contact: [0.78, 5.00, 0]
+    results: [0.72, 1.61, 0],
+    pow:     [0.50, 2.86, 0],
+    skills:  [0.62, 4.12, 0],
+    contact: [0.78, 5.38, 0]
   };
   var galNodes = null, galHint = null, galHintGone = false;
   function initGalaxyNodes() {
@@ -451,6 +455,39 @@
   function skipBoot() { endBoot(0); }
 
 
+  // ---------- proof of work: load the real X post on demand ----------
+  var twWait = null;
+  function withTwitter(cb) {
+    if (window.twttr && window.twttr.widgets && window.twttr.widgets.createTweet) { cb(true); return; }
+    if (!twWait) {
+      twWait = [];
+      var s = document.createElement('script');
+      s.src = 'https://platform.twitter.com/widgets.js'; s.async = true; s.charset = 'utf-8';
+      s.onerror = function () { var q = twWait; twWait = null; for (var i = 0; i < q.length; i++) q[i](false); };
+      document.head.appendChild(s);
+      var n = 0, t = setInterval(function () {
+        var ok = window.twttr && window.twttr.widgets && window.twttr.widgets.createTweet;
+        if (ok || ++n > 100) { clearInterval(t); var q = twWait || []; twWait = null; for (var i = 0; i < q.length; i++) q[i](!!ok); }
+      }, 100);
+    }
+    twWait.push(cb);
+  }
+  function toggleOriginal(btn) {
+    var card = btn.closest('.pow-card'), box = card && card.querySelector('.pow-embed');
+    if (!box) return;
+    if (!box.hidden) { box.hidden = true; btn.textContent = 'load original'; return; }
+    box.hidden = false; btn.textContent = 'hide original';
+    if (box.getAttribute('data-done')) return;
+    box.textContent = 'loading the post from X…'; btn.disabled = true;
+    var fail = function () { btn.disabled = false; box.textContent = 'X didn’t load here. Use “view on X” instead.'; };
+    withTwitter(function (ok) {
+      if (!ok) { fail(); return; }
+      box.textContent = '';
+      window.twttr.widgets.createTweet(btn.getAttribute('data-tweet'), box, { theme: 'dark', dnt: true, align: 'center', conversation: 'all' })
+        .then(function (el) { btn.disabled = false; if (el) box.setAttribute('data-done', '1'); else fail(); }, fail);
+    });
+  }
+
   // ---------- toast ----------
   function toast(m) {
     if (!m) return;
@@ -522,8 +559,8 @@
     var cmd = (raw || '').trim(); if (!cmd) return;
     history_.push(cmd); printLine('guest@bon:~$ ' + cmd, 'in');
     var parts = cmd.split(/\s+/); var c = parts[0].toLowerCase(); var arg = parts.slice(1).join(' ');
-    if (c === 'help' || c === '?') { printLine("COMMANDS\n  ls · map           list / open the market map\n  cd <pair>          open a pair: track, results, skills, contact\n  back · home        leave a pair / jump to the top\n  whoami · man\n  top · gm · wagmi · rekt · long · short\n  sudo hire-me       open the contact pair\n  clear              clear this log\n  (a few commands are undocumented.)", 'sys'); return; }
-    if (c === 'ls' || c === 'dir') { printLine("PAIRS — type 'cd <name>'\n  track · results · skills · contact", 'sys'); return; }
+    if (c === 'help' || c === '?') { printLine("COMMANDS\n  ls · map           list / open the market map\n  cd <pair>          open a pair: track, results, pow, skills, contact\n  back · home        leave a pair / jump to the top\n  whoami · man\n  top · gm · wagmi · rekt · long · short\n  sudo hire-me       open the contact pair\n  clear              clear this log\n  (a few commands are undocumented.)", 'sys'); return; }
+    if (c === 'ls' || c === 'dir') { printLine("PAIRS — type 'cd <name>'\n  track · results · pow · skills · contact", 'sys'); return; }
     if (c === 'map') { goMap(); printLine('→ the market map', 'out'); return; }
     if (c === 'back') { closeSection(); printLine('→ back to the map', 'out'); return; }
     if (c === 'home') { goHero(); printLine('→ top of the feed', 'out'); return; }
@@ -606,6 +643,8 @@
   function bindInput() { if (E.input) E.input.addEventListener('keydown', onInputKey); }
   function bindClicks() {
     document.addEventListener('click', function (e) {
+      var pl = e.target.closest('.pow-load');
+      if (pl) { toggleOriginal(pl); return; }
       var go = e.target.closest('[data-go]');
       if (go) { openSection(go.getAttribute('data-go')); return; }
       var act = e.target.closest('[data-act]');

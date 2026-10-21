@@ -208,8 +208,36 @@ html.no-js .pnl-card { opacity: 1; }
 #vol-chart { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
 .vol-tip { position: absolute; top: 0; transform: translateX(-50%); pointer-events: none; font-family: var(--head); font-size: 11px; letter-spacing: .04em; color: var(--ink); background: rgba(6, 8, 12, .95); border: 1px solid var(--line-2); padding: 4px 9px; white-space: nowrap; z-index: 2; }
 .vol-tip b { color: var(--green); font-weight: 700; }
-.vol-foot { display: flex; justify-content: space-between; gap: 8px 18px; flex-wrap: wrap; margin-top: 12px; font-family: var(--head); font-size: 10px; letter-spacing: .08em; color: var(--mute); }
+.vol-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px 18px; flex-wrap: wrap; margin-top: 12px; font-family: var(--head); font-size: 10px; line-height: 1.6; letter-spacing: .08em; color: var(--mute); }
 .vol-foot a { color: var(--green); border-bottom: 1px solid rgba(46, 230, 166, .3); }
 .vol-foot a:hover { border-bottom-color: var(--green); }
 html.no-js .vol-chart-wrap { display: none; }
 @media (max-width: 560px) { .vol-panel { padding: 16px 12px 12px; } .vol-months { gap: 7px; } }
+
+/* ---------- PROOF OF WORK (best replies) ---------- */
+.vol-months b.pre { color: var(--mute); }
+.pow-intro { margin-top: 16px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); max-width: 62ch; }
+.pow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.pow-card { display: flex; flex-direction: column; padding: 16px 16px 12px; opacity: 0; }
+html.js #overlay.open .section.active .pow-card { animation: btick .5s ease both; animation-delay: var(--d, 0ms); }
+html.no-js .pow-card { opacity: 1; }
+.pow-ctx { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.pow-av { flex: none; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-family: var(--head); font-size: 9.5px; font-weight: 700; letter-spacing: .02em; color: #9AA6BB; border: 1px solid rgba(154, 166, 187, .28); background: rgba(154, 166, 187, .06); }
+.pow-av.me { color: var(--bg); background: var(--green); border-color: var(--green); }
+.pow-who { min-width: 0; font-size: 12px; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pow-who b { color: var(--ink-2); font-weight: 600; }
+.pow-parent { margin: 9px 0 14px 11px; padding-left: 20px; border-left: 1px solid rgba(154, 166, 187, .2); font-size: 12.5px; line-height: 1.6; color: #8B97AB; white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.pow-media { font-family: var(--head); font-size: 10px; letter-spacing: .08em; color: var(--dim); }
+.pow-reply { margin-bottom: 12px; }
+.pow-text { margin: 9px 0 0; font-family: var(--head); font-size: clamp(15px, 1.5vw, 17px); line-height: 1.5; color: var(--ink); }
+.pow-proof { margin: 0 0 12px; padding-top: 10px; border-top: 1px dashed rgba(255, 190, 90, .3); font-family: var(--head); font-size: 11.5px; letter-spacing: .02em; color: var(--amber); }
+.pow-foot { margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(46, 230, 166, .08); display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; flex-wrap: wrap; font-family: var(--head); font-size: 10.5px; letter-spacing: .06em; color: var(--mute); }
+.pow-acts { display: inline-flex; gap: 12px; align-items: center; }
+.pow-acts a { color: var(--green); border-bottom: 1px solid rgba(46, 230, 166, .3); }
+.pow-acts a:hover { border-bottom-color: var(--green); }
+.pow-load { font-family: var(--head); font-size: 10.5px; letter-spacing: .06em; color: #9FB0C8; background: transparent; border: 1px solid var(--line); padding: 3px 8px; cursor: pointer; }
+.pow-load:hover { border-color: var(--line-2); color: var(--ink); }
+.pow-load:disabled { opacity: .6; cursor: progress; }
+html.no-js .pow-load { display: none; }
+.pow-embed { margin-top: 12px; font-family: var(--head); font-size: 11px; color: var(--mute); min-height: 20px; }
+.pow-embed iframe { max-width: 100% !important; }

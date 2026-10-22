@@ -371,3 +371,15 @@ html.no-js .filters { display: none; }
 .lcard .d { font-family: var(--mono); font-size: 10.5px; color: var(--mute); }
 .lcard b { font-size: 13.5px; font-weight: 600; line-height: 1.4; }
 .pnote { margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(214, 255, 59, .3); font-family: var(--mono); font-size: 11.5px; line-height: 1.55; color: var(--lime); }
+
+/* ---------- logo mark + portrait ---------- */
+.logo .mark { width: 26px; height: 26px; flex: none; filter: drop-shadow(0 0 10px rgba(214, 255, 59, .35)); transition: transform .3s var(--ease), filter .3s; }
+.logo:hover .mark { transform: translateY(-2px) rotate(-4deg); filter: drop-shadow(0 0 16px rgba(214, 255, 59, .6)); }
+.boot-mark { width: 44px; height: 44px; display: block; margin-bottom: 18px; filter: drop-shadow(0 0 18px rgba(214, 255, 59, .45)); animation: pulse 1.6s ease-in-out infinite; }
+.portrait { position: relative; width: 100%; aspect-ratio: 1; border-radius: 14px; overflow: hidden; border: 1px solid var(--line-2); margin-bottom: 18px; background: #0A0E13; box-shadow: 0 0 40px rgba(47, 210, 130, .12); }
+.portrait img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.portrait:hover img { transform: scale(1.03); }
+.portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgba(7, 9, 13, .75)); }
+.portrait .ptag, .portrait .pid { position: absolute; z-index: 1; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; }
+.portrait .ptag { top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 7px; color: var(--long); background: rgba(7, 9, 13, .7); border: 1px solid var(--line-2); border-radius: 999px; padding: 3px 9px; }
+.portrait .pid { bottom: 12px; left: 14px; color: var(--lime); }

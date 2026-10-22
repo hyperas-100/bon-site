@@ -502,6 +502,14 @@
     twWait.push(cb);
   }
   function initReceipts() {
+    $$('.media img').forEach(function (img) { img.addEventListener('error', function () { var m = img.closest('.media'); if (m) m.remove(); }); });
+    $$('.filters button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var f = btn.getAttribute('data-filter');
+        $$('.filters button').forEach(function (x) { var on = x === btn; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+        $$('.rgroup').forEach(function (g) { g.hidden = !(f === 'all' || g.getAttribute('data-group') === f); });
+      });
+    });
     $$('.load').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.rc'), box = card && $('.embed', card); if (!box) return;

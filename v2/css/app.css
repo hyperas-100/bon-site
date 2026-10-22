@@ -363,7 +363,7 @@ html.no-js .filters { display: none; }
 .rghead h3 .mono { font-size: 11.5px; color: var(--mute); font-weight: 400; margin-left: 10px; letter-spacing: 0; }
 .rghead p { color: var(--ink-2); font-size: 13px; }
 .atitle { font-size: 17px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.35; margin-top: 12px; }
-.ptext { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: var(--ink); white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }
+.ptext { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: var(--ink); white-space: pre-line; }
 .media { position: relative; margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #0A0E13; }
 .media img { display: block; width: 100%; height: auto; max-height: 300px; object-fit: contain; }
 .mbadge { position: absolute; left: 10px; bottom: 10px; font-family: var(--mono); font-size: 10.5px; background: rgba(7, 9, 13, .88); border: 1px solid var(--line-2); border-radius: 4px; padding: 2px 7px; color: var(--ink); }

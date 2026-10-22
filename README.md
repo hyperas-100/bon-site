@@ -59,3 +59,5 @@ After you have a domain:
 
 Console easter eggs (click the prompt at the bottom): `help`, `ls`, `cd track|results|skills|contact`, `map`, `gm`, `wagmi`,
 `rekt`, `ngmi`, `long`, `short`, `sudo hire-me`.
+
+Volume snapshot (js/volume-data.js) last refreshed from DefiLlama: Oct 22, 2026.

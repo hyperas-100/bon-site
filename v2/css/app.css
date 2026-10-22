@@ -348,3 +348,25 @@ html.no-js #boot, html.booted #boot { display: none; }
 /* ---------- no-JS: hide the bits that need scripting ---------- */
 html.no-js .cwrap, html.no-js .tf, html.no-js .note, html.no-js .vwrap, html.no-js .cmd, html.no-js .kbd, html.no-js .mini { display: none; }
 html.no-js .book .row i { width: calc(var(--dw, 50) * 1%); }
+
+/* ---------- RECEIPTS: filters, groups, posts ---------- */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 22px; }
+.filters button { font-family: var(--mono); font-size: 12px; padding: 7px 13px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--ink-2); cursor: pointer; transition: all .2s; }
+.filters button:hover { color: var(--ink); border-color: var(--ink-2); }
+.filters button span { margin-left: 7px; opacity: .55; }
+.filters button.on { background: var(--lime); border-color: var(--lime); color: #07090D; font-weight: 700; box-shadow: 0 0 18px rgba(214, 255, 59, .25); }
+html.no-js .filters { display: none; }
+.rgroup[hidden] { display: none; }
+.rgroup + .rgroup { margin-top: 34px; }
+.rghead { display: flex; align-items: baseline; gap: 4px 16px; flex-wrap: wrap; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.rghead h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; }
+.rghead h3 .mono { font-size: 11.5px; color: var(--mute); font-weight: 400; margin-left: 10px; letter-spacing: 0; }
+.rghead p { color: var(--ink-2); font-size: 13px; }
+.atitle { font-size: 17px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.35; margin-top: 12px; }
+.ptext { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: var(--ink); white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }
+.media { position: relative; margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #0A0E13; }
+.media img { display: block; width: 100%; height: auto; max-height: 300px; object-fit: contain; }
+.mbadge { position: absolute; left: 10px; bottom: 10px; font-family: var(--mono); font-size: 10.5px; background: rgba(7, 9, 13, .88); border: 1px solid var(--line-2); border-radius: 4px; padding: 2px 7px; color: var(--ink); }
+.lcard { margin-top: 12px; border: 1px solid var(--line-2); border-radius: 10px; padding: 10px 12px; display: grid; gap: 3px; background: var(--panel-3); }
+.lcard .d { font-family: var(--mono); font-size: 10.5px; color: var(--mute); }
+.lcard b { font-size: 13.5px; font-weight: 600; line-height: 1.4; }

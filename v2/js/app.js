@@ -158,62 +158,90 @@
     window.addEventListener('keydown', finish); el.addEventListener('pointerdown', finish);
   }
 
-  // ---------- career chart (illustrative) ----------
+  // ---------- career chart (illustrative, weekly candles) ----------
   var career = (function () {
-    var c, tip, data = [], frac = 1, raf = 0, live = 0, hover = -1, drawn = 0, geo = null;
-    var START = 2021 + 3 / 12, SPAN = 5.5; // Apr 2021 -> Oct 2026
-    function era(t) {
-      var y = START + t * SPAN;
-      if (y < 2025 + 4 / 12) return 'Freelance ×4';
-      if (y < 2025 + 6 / 12) return '';
-      if (y < 2026 + 4 / 12) return 'Kame · FlowX · Aurum';
-      if (y < 2026 + 7.6 / 12) return '';
+    var c, tip, data = [], win = 52, raf = 0, live = 0, hover = -1, geo = null, athBase = 0;
+    var WEEK = 7 * 864e5, D0 = Date.UTC(2021, 3, 5), NOW = Date.UTC(2026, 9, 21), JOIN = Date.UTC(2026, 7, 20);
+    var KAME = Date.UTC(2025, 6, 1);
+    function yf(ms) { var d = new Date(ms); return d.getUTCFullYear() + (d.getUTCMonth() + (d.getUTCDate() - 1) / 31) / 12; }
+    // shape: steady up while working, a small dip in the 2022 bear, flat between gigs,
+    // a small dip after Kame / FlowX / Aurum, then a breakout after joining Bullet.
+    var KEYS = [[2021.25, 0.06], [2021.95, 0.20], [2022.4, 0.175], [2022.92, 0.155], [2023.5, 0.21], [2023.95, 0.27],
+      [2024.5, 0.33], [2024.95, 0.40], [2025.3, 0.44], [2025.5, 0.435], [2025.95, 0.53], [2026.3, 0.62], [2026.62, 0.575]];
+    var BULL = [0.026, 0.034, -0.012, 0.046, 0.03, 0.056, -0.016, 0.062, 0.072, 0.16]; // weekly moves after joining; the last one is the ATH candle
+    function target(y) {
+      if (y <= KEYS[0][0]) return KEYS[0][1];
+      for (var k = 1; k < KEYS.length; k++) {
+        if (y <= KEYS[k][0]) { var a = KEYS[k - 1], b = KEYS[k], t = (y - a[0]) / (b[0] - a[0]); t = t * t * (3 - 2 * t); return a[1] + (b[1] - a[1]) * t; }
+      }
+      return KEYS[KEYS.length - 1][1];
+    }
+    function era(ms) {
+      if (ms < Date.UTC(2025, 4, 1)) return 'Freelance ×4';
+      if (ms < KAME) return '';
+      if (ms < Date.UTC(2026, 4, 1)) return 'Kame · FlowX · Aurum';
+      if (ms < JOIN) return '';
       return 'Bullet.xyz';
     }
     function gen() {
-      var n = 132, s = 20, v = 0.1, out = [];
+      var s = 41, out = [], n = Math.floor((NOW - D0) / WEEK) + 1, prev = KEYS[0][1], b = 0;
       function r() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
+      var joinI = Math.floor((JOIN - D0) / WEEK);
       for (var i = 0; i < n; i++) {
-        var t = i / (n - 1), y = START + t * SPAN, drift;
-        if (y < 2022) drift = 0.006; else if (y < 2023) drift = -0.0025; else if (y < 2024) drift = 0.003;
-        else if (y < 2025) drift = 0.006; else if (y < 2026) drift = 0.009; else drift = 0.016;
-        var o = v; v = Math.max(0.04, Math.min(0.96, v + drift + (r() - 0.48) * 0.035));
-        out.push({ o: o, c: v, h: Math.max(o, v) + r() * 0.022, l: Math.min(o, v) - r() * 0.022, t: t });
+        var ms = D0 + i * WEEK, o = prev + (r() - 0.5) * 0.003, cl, wick = 0.007;
+        if (i < joinI) cl = target(yf(ms)) + (r() - 0.5) * 0.022;
+        else { var mv = BULL[Math.min(b, BULL.length - 1)]; b++; cl = prev + mv; wick = 0.016; }
+        out.push({ o: o, c: cl, h: Math.max(o, cl) + r() * wick, l: Math.min(o, cl) - r() * wick, ms: ms });
+        prev = cl;
       }
+      var last = out[out.length - 1]; last.h = last.c + 0.006; athBase = last.c;
       return out;
     }
-    function lbl(t) { var y = START + t * SPAN, yr = Math.floor(y + 1e-6), mo = Math.min(11, Math.floor((y - yr) * 12 + 1e-6)); return MON[mo] + ' ' + yr; }
+    function lbl(ms) { var d = new Date(ms); return 'wk of ' + MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
+    function idxOf(ms) { return Math.floor((ms - D0) / WEEK); }
     function draw(k) {
       var S = sizeCanvas(c), ctx = S.ctx, w = S.w, h = S.h;
-      var from = Math.floor(data.length * (1 - frac)), vis = data.slice(from), n = vis.length;
+      var from = win ? Math.max(0, data.length - win) : 0, vis = data.slice(from), n = vis.length;
       var padL = 16, padR = 66, padT = 26, padB = 24, pw = w - padL - padR, ph = h - padT - padB, bw = pw / n;
-      var mn = 1, mx = 0; vis.forEach(function (p) { if (p.l < mn) mn = p.l; if (p.h > mx) mx = p.h; });
-      var span = (mx - mn) || 1; mn -= span * 0.06; mx += span * 0.1;
+      var mn = 9, mx = -9; vis.forEach(function (p) { if (p.l < mn) mn = p.l; if (p.h > mx) mx = p.h; });
+      var span = (mx - mn) || 1; mn -= span * 0.06; mx += span * 0.08;
       function Y(v) { return padT + ph - (v - mn) / (mx - mn) * ph; }
-      geo = { padL: padL, bw: bw, n: n, from: from, w: w, Y: Y, padT: padT, ph: ph };
+      geo = { padL: padL, bw: bw, n: n, from: from, w: w, Y: Y };
       ctx.clearRect(0, 0, w, h);
       for (var g = 0; g <= 4; g++) { var gy = Math.round(padT + ph * g / 4) + 0.5; ctx.fillStyle = C.grid; ctx.fillRect(padL, gy, pw, 1); }
-      var shown = Math.min(n, k == null ? n : k);
+      var shown = Math.min(n, k == null ? n : k), joinI = idxOf(JOIN) - from;
+      if (joinI > 0 && joinI < n) { ctx.fillStyle = 'rgba(47,210,130,0.045)'; ctx.fillRect(padL + joinI * bw, padT, pw - joinI * bw, ph); }
       for (var i = 0; i < shown; i++) {
         var p = vis[i], x = padL + i * bw + bw / 2, up = p.c >= p.o, col = (i === hover) ? C.ink : (up ? C.long : C.short);
         ctx.fillStyle = col; ctx.globalAlpha = (hover >= 0 && i !== hover) ? 0.75 : 1;
+        if (i === n - 1 && up) { ctx.shadowColor = 'rgba(47,210,130,0.8)'; ctx.shadowBlur = 16; }
         ctx.fillRect(Math.round(x) - 0.5, Y(p.h), 1, Math.max(1, Y(p.l) - Y(p.h)));
         var top = Y(Math.max(p.o, p.c)), hh = Math.max(1.5, Math.abs(Y(p.o) - Y(p.c)));
-        ctx.fillRect(x - bw * 0.32, top, Math.max(1, bw * 0.64), hh);
+        ctx.fillRect(x - bw * 0.34, top, Math.max(1, bw * 0.68), hh);
+        ctx.shadowBlur = 0;
       }
       ctx.globalAlpha = 1;
       // job markers
-      ctx.font = '500 10.5px ' + MONO; ctx.textBaseline = 'alphabetic';
       var tiny = w < 560;
-      [[0.0, tiny ? '’21' : 'FREELANCE ×4 · ’21'], [(2025 + 6 / 12 - START) / SPAN, tiny ? 'KAME · FLOWX' : 'KAME · FLOWX · AURUM · ’25'], [(2026 + 7.6 / 12 - START) / SPAN, tiny ? 'BULLET' : 'BULLET · ’26']].forEach(function (m) {
-        var gi = Math.round(m[0] * (data.length - 1)) - from; if (gi < 0 || gi >= shown) return;
-        var x = Math.round(padL + gi * bw + bw / 2) + 0.5, yy = Math.max(12, Y(vis[gi].h) - 12), right = gi > n * 0.5;
+      ctx.font = '500 10.5px ' + MONO; ctx.textBaseline = 'alphabetic';
+      [[D0, tiny ? '’21' : 'FREELANCE ×4 · ’21'], [KAME, tiny ? 'KAME · FLOWX' : 'KAME · FLOWX · AURUM · ’25'], [JOIN, tiny ? 'BULLET' : 'BULLET · ’26']].forEach(function (m) {
+        var gi = idxOf(m[0]) - from; if (gi < 0 || gi >= shown) return;
+        var right = gi > n * 0.5, span = Math.max(3, Math.round(n * 0.16)), hi = vis[gi].h;
+        for (var q = right ? Math.max(0, gi - span) : gi; q <= (right ? gi : Math.min(shown - 1, gi + span)); q++) if (vis[q].h > hi) hi = vis[q].h;
+        var x = Math.round(padL + gi * bw + bw / 2) + 0.5, yy = Math.max(12, Y(hi) - 12);
         ctx.strokeStyle = 'rgba(214,255,59,0.35)'; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(x, yy + 4); ctx.lineTo(x, padT + ph); ctx.stroke(); ctx.setLineDash([]);
         ctx.fillStyle = C.lime; ctx.textAlign = right ? 'right' : 'left'; ctx.fillText(m[1], right ? x - 6 : x + 5, yy);
       });
-      // years
-      ctx.fillStyle = C.mute; ctx.textAlign = 'center';
-      for (var yr = 2022; yr <= 2026; yr++) { var gi2 = Math.round((yr - START) / SPAN * (data.length - 1)) - from; if (gi2 < 1 || gi2 >= n) continue; ctx.fillText(String(yr), padL + gi2 * bw, h - 6); }
+      // time axis: years on ALL, months on 1Y
+      ctx.fillStyle = C.mute; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      var lastM = -1, every = tiny ? 2 : 1, cnt = 0;
+      for (var j = 1; j < n; j++) {
+        var d = new Date(vis[j].ms), m2 = d.getUTCMonth();
+        if (win) {
+          if (m2 !== lastM && lastM !== -1) { if (cnt++ % every === 0) ctx.fillText(m2 === 0 ? String(d.getUTCFullYear()) : MON[m2], padL + j * bw, h - 6); }
+          lastM = m2;
+        } else if (m2 === 0 && new Date(vis[j - 1].ms).getUTCMonth() === 11) ctx.fillText(String(d.getUTCFullYear()), padL + j * bw, h - 6);
+      }
       // last price
       if (shown === n) {
         var last = vis[n - 1], ly = Y(last.c);
@@ -221,21 +249,21 @@
         ctx.fillStyle = C.long; ctx.fillRect(w - padR + 4, ly - 10, 58, 20);
         ctx.fillStyle = '#04130B'; ctx.font = '700 11px ' + MONO; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('ATH', w - padR + 33, ly + 0.5);
       }
-      // crosshair
       if (hover >= 0 && hover < n) {
         var hx = Math.round(padL + hover * bw + bw / 2) + 0.5;
         ctx.strokeStyle = 'rgba(233,238,245,0.25)'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(hx, padT - 6); ctx.lineTo(hx, padT + ph); ctx.stroke(); ctx.setLineDash([]);
       }
     }
+    function count() { return win ? Math.min(win, data.length) : data.length; }
     function animateIn() {
       if (raf) cancelAnimationFrame(raf);
-      var n = Math.floor(data.length * frac), t0 = performance.now(), D = reduce() ? 0 : 900;
-      (function f(now) { var k = D ? Math.ceil(eOut(clamp((now - t0) / D)) * n) : n; drawn = k; draw(k); if (k < n) raf = requestAnimationFrame(f); else raf = 0; })(t0);
+      var n = count(), t0 = performance.now(), D = reduce() ? 0 : 950;
+      (function f(now) { var k = D ? Math.ceil(eOut(clamp((now - t0) / D)) * n) : n; draw(k); if (k < n) raf = requestAnimationFrame(f); else raf = 0; })(t0);
     }
     function tick() {
       if (raf || document.hidden) return;
-      var p = data[data.length - 1], nc = Math.max(p.l + 0.004, Math.min(p.h + 0.01, p.c + (Math.random() - 0.4) * 0.008));
-      p.c = nc; if (nc > p.h) p.h = nc;
+      var p = data[data.length - 1], nc = athBase + (Math.random() - 0.35) * 0.012;
+      p.c = nc; p.h = Math.max(p.h, nc + 0.002);
       draw();
       var px = $('#cpx'); if (px) { px.style.transition = 'none'; px.style.color = C.lime; requestAnimationFrame(function () { px.style.transition = 'color .8s'; px.style.color = ''; }); }
     }
@@ -244,8 +272,8 @@
       var r = c.getBoundingClientRect(), x = ev.clientX - r.left, i = Math.floor((x - geo.padL) / geo.bw);
       if (i < 0 || i >= geo.n) { leave(); return; }
       if (i !== hover) { hover = i; draw(); }
-      var p = data[geo.from + i], e2 = era(p.t);
-      tip.innerHTML = lbl(p.t) + (e2 ? ' · <b>' + e2 + '</b>' : '');
+      var p = data[geo.from + i], e2 = era(p.ms);
+      tip.innerHTML = lbl(p.ms) + (e2 ? ' · <b>' + e2 + '</b>' : '');
       tip.hidden = false;
       var bx = geo.padL + (i + 0.5) * geo.bw, half = tip.offsetWidth / 2 + 4;
       tip.style.left = Math.max(half, Math.min(geo.w - half, bx)) + 'px';
@@ -260,7 +288,7 @@
         $$('.tf button').forEach(function (b) {
           b.addEventListener('click', function () {
             $$('.tf button').forEach(function (x) { x.classList.toggle('on', x === b); });
-            frac = +b.getAttribute('data-tf') || 1; hover = -1; tip.hidden = true; animateIn();
+            win = +b.getAttribute('data-tf') || 0; hover = -1; tip.hidden = true; animateIn();
           });
         });
       },

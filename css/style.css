@@ -216,6 +216,7 @@ html.no-js .vol-chart-wrap { display: none; }
 
 /* ---------- PROOF OF WORK (best replies) ---------- */
 .vol-months b.pre { color: var(--mute); }
+@media (max-width: 560px) { .vol-months { display: grid; grid-template-columns: auto auto; gap: 12px 26px; justify-content: start; } .vol-months .arr { display: none; } .vol-months .m { white-space: nowrap; } }
 .pow-intro { margin-top: 16px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); max-width: 62ch; }
 .pow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
 .pow-card { display: flex; flex-direction: column; padding: 16px 16px 12px; opacity: 0; }

@@ -210,7 +210,7 @@
         var e = 1 - Math.pow(1 - local, 3);
         var h = Math.max(1.5, (v / top) * ph * e);
         var x0 = padL + i * bw + (bw > 3 ? 0.5 : 0), w = Math.max(1, bw - (bw > 3 ? 1 : 0.3));
-        ctx.fillStyle = (i === volHover) ? '#FFFFFF' : (i >= n - 3 ? '#FFBE5A' : (i >= joinI ? '#2EE6A6' : '#2a5b52'));
+        ctx.fillStyle = (i === volHover) ? '#FFFFFF' : (v >= max * 0.85 ? '#FFBE5A' : (i >= joinI ? '#2EE6A6' : '#2a5b52'));
         ctx.fillRect(x0, base - h, w, h);
       }
       // cut LED rows out of the bars
@@ -233,17 +233,20 @@
         if (dt.getUTCDate() !== 1) continue;
         var mx = Math.round(padL + i * bw) + 0.5;
         ctx.fillStyle = 'rgba(46,230,166,0.25)'; ctx.fillRect(mx, base, 1, 5);
+        if (mx + 3 + ctx.measureText(MON[dt.getUTCMonth()]).width > W) continue;
         ctx.fillStyle = '#566173'; ctx.fillText(MON[dt.getUTCMonth()], mx + 3, H - 5);
       }
       // "joined" marker
       ctx.strokeStyle = 'rgba(255,190,90,0.75)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
       ctx.beginPath(); ctx.moveTo(Math.round(joinX) + 0.5, padT - 14); ctx.lineTo(Math.round(joinX) + 0.5, base); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = '#FFBE5A'; ctx.textBaseline = 'middle'; ctx.fillText('▸ bon joins', joinX + 6, padT - 14);
-      // latest print
+      ctx.fillStyle = '#FFBE5A'; ctx.textBaseline = 'middle';
+      if (sm) { ctx.textAlign = 'right'; ctx.fillText('bon joins ◂', joinX - 6, padT - 14); ctx.textAlign = 'left'; } else ctx.fillText('▸ bon joins', joinX + 6, padT - 14);
+      // peak print
       if (p >= 1) {
-        var lv = d[n - 1], ly = base - (lv / top) * ph;
+        var pk = 0; for (i = 1; i < n; i++) if (d[i] > d[pk]) pk = i;
+        var lv = d[pk], ly = base - (lv / top) * ph;
         ctx.textAlign = 'right'; ctx.fillStyle = '#FFBE5A'; ctx.font = "bold 11px 'Space Mono', ui-monospace, Menlo, monospace";
-        ctx.fillText(fmtVol(lv) + ' / day', padL + pw - (sm ? 6 : 10), Math.max(padT - 14, ly - 12));
+        ctx.fillText((sm ? '' : 'peak ') + fmtVol(lv) + ' / day', Math.min(padL + pw - (sm ? 2 : 6), padL + (pk + 1) * bw), Math.max(padT - 14, ly - 12));
       }
       if (p < 1) volRaf = requestAnimationFrame(frame); else volRaf = 0;
     }

@@ -316,7 +316,7 @@
     for (i = 0; i < n; i++) {
       var v = d[i]; if (v == null || v <= 0) continue;
       var lp = clamp(p * 1.7 - (i / n) * 0.7), hh = Math.max(1.5, (v / top) * ph * eOut(lp));
-      ctx.fillStyle = i === hov ? C.ink : (i >= n - 3 ? C.lime : (i >= joinI ? C.long : '#253141'));
+      ctx.fillStyle = i === hov ? C.ink : (v >= max * 0.85 ? C.lime : (i >= joinI ? C.long : '#253141'));
       ctx.fillRect(padL + i * bw + (bw > 3 ? 0.5 : 0), base - hh, Math.max(1, bw - (bw > 3 ? 1 : 0.3)), hh);
     }
     ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = '#000';
@@ -333,9 +333,9 @@
         ctx.fillStyle = C.mute; ctx.fillText(g ? '$' + (g / 1000) + 'M' : '$0', padL - 7, gy);
       }
       ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-      for (i = 0; i < n; i++) { var dt = volDay(i); if (dt.getUTCDate() !== 1) continue; var mx2 = Math.round(padL + i * bw) + 0.5; ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fillRect(mx2, base, 1, 5); ctx.fillStyle = C.mute; ctx.fillText(MON[dt.getUTCMonth()].toUpperCase(), mx2 + 3, h - 5); }
-      ctx.fillStyle = C.lime; ctx.textBaseline = 'middle'; ctx.fillText('▸ bon joins', jx + 6, padT - 14);
-      if (p >= 1) { var lv = d[n - 1]; ctx.textAlign = 'right'; ctx.font = '700 11px ' + MONO; ctx.fillText(fmtVol(lv) + ' / day', padL + pw - (sm ? 6 : 10), Math.max(padT - 14, base - (lv / top) * ph - 12)); }
+      for (i = 0; i < n; i++) { var dt = volDay(i); if (dt.getUTCDate() !== 1) continue; var mx2 = Math.round(padL + i * bw) + 0.5; ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fillRect(mx2, base, 1, 5); if (mx2 + 3 + ctx.measureText(MON[dt.getUTCMonth()].toUpperCase()).width > w) continue; ctx.fillStyle = C.mute; ctx.fillText(MON[dt.getUTCMonth()].toUpperCase(), mx2 + 3, h - 5); }
+      ctx.fillStyle = C.lime; ctx.textBaseline = 'middle'; if (sm) { ctx.textAlign = 'right'; ctx.fillText('bon joins ◂', jx - 6, padT - 14); } else ctx.fillText('▸ bon joins', jx + 6, padT - 14);
+      if (p >= 1) { var pk = 0; for (i = 1; i < n; i++) if (d[i] > d[pk]) pk = i; var lv = d[pk]; ctx.textAlign = 'right'; ctx.font = '700 11px ' + MONO; ctx.fillText((sm ? '' : 'peak ') + fmtVol(lv) + ' / day', Math.min(padL + pw - (sm ? 2 : 6), padL + (pk + 1) * bw), Math.max(padT - 14, base - (lv / top) * ph - 12)); }
     }
     return { padL: padL, bw: bw, n: n, w: w };
   }

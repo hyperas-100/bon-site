@@ -214,6 +214,7 @@ tr.det[hidden] { display: none; }
 .vol-months b { font-size: clamp(16px, 2vw, 22px); color: var(--ink); }
 .vol-months b.pre { color: var(--mute); } .vol-months b.hot { color: var(--lime); }
 .vol-months .arr { color: var(--dim, #3D4656); padding-bottom: 3px; }
+@media (max-width: 560px) { .vol-months { display: grid; grid-template-columns: auto auto; gap: 12px 26px; justify-content: start; } .vol-months .arr { display: none; } .vol-months .m { white-space: nowrap; } }
 .vwrap { position: relative; height: clamp(220px, 34vh, 320px); }
 .vwrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: pan-y; }
 .vfoot { display: flex; justify-content: space-between; gap: 8px 18px; flex-wrap: wrap; margin-top: 12px; font-family: var(--mono); font-size: 10.5px; line-height: 1.6; color: var(--mute); }

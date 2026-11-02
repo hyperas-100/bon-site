@@ -31,7 +31,7 @@
     { label: 'Freelance ’21–’25', color: [255, 190, 90], size: 11, level: 0.10, seed: 3, mono: '×4',  stat: '0 → 800k+ users' },
     { label: 'Kame · Sei',        color: [46, 230, 166], size: 10, level: 0.42, seed: 5, mono: 'KM',  stat: '~800% KOL efficiency' },
     { label: 'FlowX · Aurum',     color: [110, 200, 240], size: 8, level: 0.66, seed: 7, mono: 'F+A', stat: 'KOL + full-stack growth' },
-    { label: 'Bullet.xyz ’26',    color: [255, 120, 150], size: 13, level: 0.95, seed: 9, mono: 'BX', live: true, stat: '2.1M impressions · +781%' }
+    { label: 'Bullet.xyz ’26',    color: [255, 120, 150], size: 13, level: 0.95, seed: 9, mono: 'BX', live: true, stat: '2.5M impressions · +792%' }
   ];
 
   // ---------- module state ----------
